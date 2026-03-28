@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spurna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="#">
+          <img class="brand-logo" src="spurna-logo.png" alt="Spurna logo" />
+          <span class="brand-text">Spurna</span>
+        </a>
+
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">Menu</button>
+
+        <nav class="site-nav" data-nav>
+          <a href="#product">Product</a>
+          <a href="#about">About Us</a>
+          <a href="#mission">Mission</a>
+          <a class="button primary" href="#demo">Request a Demo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <h1>Politics Reimagined</h1>
+        <p>
+          Leveraging AI and political actions to hold politicians accountable to their
+          promises.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Request a Demo</a>
+          <a class="button ghost" href="#product">See Product</a>
+        </div>
+
+        <div class="hero-visuals" role="presentation">
+          <figure class="phone-card phone-main hero-phone">
+            <img src="app-start-page.png" alt="Spurna app start page" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="showcase container" id="product">
+        <article class="showcase-item reveal">
+          <div class="showcase-copy">
+            <h2>Campaign Promises Tracked</h2>
+            <p>
+              See how well different political parties follow through with their
+              campaign promises in one easy glance.
+            </p>
+          </div>
+          <figure class="showcase-image">
+            <img src="app-screen-outside.png" alt="Spurna campaign scorecards screen" />
+          </figure>
+        </article>
+
+        <article class="showcase-item reveal">
+          <figure class="showcase-image">
+            <img src="app-screen-closeup.png" alt="Spurna accountability details screen" />
+          </figure>
+          <div class="showcase-copy">
+            <h2>Accontablity Visulized</h2>
+            <p>
+              See where politicians stand on key issues within the political
+              spectrum.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="features container" id="benefits">
+        <article>
+          <h2>Accountability First</h2>
+          <p>Track exactly how each political stance is formed with ClipReview.</p>
+        </article>
+        <article>
+          <h2>Amendment Clarity</h2>
+          <p>
+            Understand what bills actually do through plain-English summaries
+            that include every amendment.
+          </p>
+        </article>
+        <article>
+          <h2>Built to adapt</h2>
+          <p>
+            See how politicians' actions today signal the future direction of
+            their party.
+          </p>
+        </article>
+      </section>
+
+      <section class="stats container">
+        <div>
+          <strong>National + Local</strong>
+          <span>
+            Follow both state and national leaders to understand politics that
+            impact you directly.
+          </span>
+        </div>
+        <div>
+          <strong>Clarity by Design</strong>
+          <span>
+            A clean, intuitive layout that makes every politician
+            understandable at a glance.
+          </span>
+        </div>
+        <div>
+          <strong>Political Connection</strong>
+          <span>Discover politicians who align with your personal beliefs.</span>
+        </div>
+      </section>
+
+
+      <section class="about container" id="about">
+        <h2>Meet the team behind Spurna</h2>
+        <p class="about-intro">
+          We are three college students who were brought together by our shared
+          passion for political transparency.
+        </p>
+
+        <div class="about-grid">
+          <article class="person-card">
+            <img
+              src="team-alivin.jpeg"
+              alt="Portrait of Alivin Tai"
+            />
+            <h3>Alivin Tai</h3>
+            <p>
+              Co-founder focused on artificial intelligence integration and data
+              review. A third year student at McGill University, Alivin is
+              inspired by sports analytics and bringing insights from the sports
+              world to politics.
+            </p>
+          </article>
+
+          <article class="person-card">
+            <img
+              src="team-jackson.jpg"
+              class="jackson-photo"
+              alt="Portrait of Jackson Noland"
+            />
+            <h3>Jackson Noland</h3>
+            <p>
+              Co-founder leading partnerships, growth, product direction, and
+              day-to-day operations so Spurna can provide reliable analysis. A
+              third year student at Vanderbilt studying Political Science and
+              Human and Organization Development, Jackson strives to create a
+              more transparent future for American politics.
+            </p>
+          </article>
+
+          <article class="person-card">
+            <img
+              src="team-dhruv.jpeg"
+              alt="Portrait of Dhruv Raghavan"
+            />
+            <h3>Dhruv Raghavan</h3>
+            <p>
+              Co-Founder focused on leading design and technical execution to
+              keep the Spurna product simple, fast, and reliable. A third year
+              student at Brown University majoring in Computer Science and
+              Mathematics, Dhruv has a passion for technological accountability.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="mission container" id="mission">
+        <h2>Our mission</h2>
+        <p>
+          Today, most voters choose a party - not a set of beliefs. We're changing
+          that by exposing what politicians actually stand for and how they act.
+          We strive to cut through the noise, giving people the tools to vote on
+          policy and hold leaders accountable when they fall short.
+        </p>
+      </section>
+
+      <section class="cta container" id="demo">
+        <h2>Request a live Spurna demo.</h2>
+        <p>
+          Spurna is coming soon! Until then as we actively ensure the rigor of
+          our assessment sign up to request a demo today to get hands-on
+          experience with our prototype.
+        </p>
+        <a class="button primary" href="#">Request a Demo</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Spurna.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
