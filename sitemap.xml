@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://spurna.org/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://spurna.org/team-alivin.jpeg</image:loc>
+      <image:title>Alivin Tai, Spurna co-founder</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://spurna.org/team-jackson.jpg</image:loc>
+      <image:title>Jackson Noland, Spurna co-founder</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://spurna.org/team-dhruv.jpeg</image:loc>
+      <image:title>Dhruv Raghavan, Spurna co-founder</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://spurna.org/app-start-page.webp</image:loc>
+      <image:title>Spurna app start page</image:title>
+    </image:image>
+  </url>
+</urlset>

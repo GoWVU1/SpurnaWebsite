@@ -2,9 +2,37 @@ const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('[data-nav]');
 
 if (toggle && nav) {
-  toggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
+  const setMenu = (isOpen) => {
+    nav.classList.toggle('open', isOpen);
     toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  };
+
+  toggle.addEventListener('click', () => {
+    setMenu(!nav.classList.contains('open'));
+  });
+
+  nav.addEventListener('click', (event) => {
+    if (event.target.closest('a')) {
+      setMenu(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('open')) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      nav.classList.contains('open') &&
+      !nav.contains(event.target) &&
+      !toggle.contains(event.target)
+    ) {
+      setMenu(false);
+    }
   });
 }
 
@@ -16,6 +44,7 @@ if (revealItems.length) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
         }
       });
     },

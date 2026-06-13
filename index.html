@@ -3,20 +3,114 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spurna</title>
+    <title>Spurna — AI-Powered Political Accountability &amp; Campaign Promise Tracker</title>
+    <meta
+      name="description"
+      content="Spurna uses AI to track campaign promises and hold politicians accountable. See where leaders stand on key issues, understand bills in plain English, and vote on policy — not party."
+    />
+    <link rel="canonical" href="https://spurna.org/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#0b6bff" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Spurna" />
+    <meta property="og:title" content="Spurna — AI-Powered Political Accountability" />
+    <meta
+      property="og:description"
+      content="Track campaign promises, see where politicians stand on key issues, and hold leaders accountable with AI-powered analysis."
+    />
+    <meta property="og:url" content="https://spurna.org/" />
+    <meta property="og:image" content="https://spurna.org/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Spurna — AI-Powered Political Accountability" />
+    <meta
+      name="twitter:description"
+      content="Track campaign promises, see where politicians stand on key issues, and hold leaders accountable with AI-powered analysis."
+    />
+    <meta name="twitter:image" content="https://spurna.org/og-image.jpg" />
+
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="preload" as="image" href="app-start-page.webp" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://spurna.org/#organization",
+          "name": "Spurna",
+          "url": "https://spurna.org/",
+          "logo": "https://spurna.org/og-image.jpg",
+          "description": "Spurna uses AI to track campaign promises and hold politicians accountable.",
+          "founder": [
+            { "@id": "https://spurna.org/#alivin-tai" },
+            { "@id": "https://spurna.org/#jackson-noland" },
+            { "@id": "https://spurna.org/#dhruv-raghavan" }
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://spurna.org/#alivin-tai",
+          "name": "Alivin Tai",
+          "jobTitle": "Co-Founder",
+          "image": "https://spurna.org/team-alivin.jpeg",
+          "url": "https://spurna.org/#about",
+          "worksFor": { "@id": "https://spurna.org/#organization" },
+          "alumniOf": "McGill University"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://spurna.org/#jackson-noland",
+          "name": "Jackson Noland",
+          "jobTitle": "Co-Founder",
+          "image": "https://spurna.org/team-jackson.jpg",
+          "url": "https://spurna.org/#about",
+          "worksFor": { "@id": "https://spurna.org/#organization" },
+          "alumniOf": "Vanderbilt University"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://spurna.org/#dhruv-raghavan",
+          "name": "Dhruv Raghavan",
+          "jobTitle": "Co-Founder",
+          "image": "https://spurna.org/team-dhruv.jpeg",
+          "url": "https://spurna.org/#about",
+          "worksFor": { "@id": "https://spurna.org/#organization" },
+          "alumniOf": "Brown University"
+        },
+        {
+          "@type": "WebSite",
+          "url": "https://spurna.org/",
+          "name": "Spurna",
+          "publisher": { "@id": "https://spurna.org/#organization" }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <header class="site-header">
       <div class="container nav-wrap">
-        <a class="brand" href="#">
-          <img class="brand-logo" src="spurna-logo.png" alt="Spurna logo" />
+        <a class="brand" href="/">
+          <img class="brand-logo" src="spurna-logo.webp" alt="Spurna logo" width="288" height="192" />
           <span class="brand-text">Spurna</span>
         </a>
 
@@ -45,7 +139,7 @@
 
         <div class="hero-visuals" role="presentation">
           <figure class="phone-card phone-main hero-phone">
-            <img src="app-start-page.png" alt="Spurna app start page" />
+            <img src="app-start-page.webp" alt="Spurna app start page showing political accountability scores" width="1024" height="762" fetchpriority="high" />
           </figure>
         </div>
       </section>
@@ -60,16 +154,16 @@
             </p>
           </div>
           <figure class="showcase-image">
-            <img src="app-screen-outside.png" alt="Spurna campaign scorecards screen" />
+            <img src="app-screen-outside.webp" alt="Spurna campaign promise scorecards screen" width="1024" height="1536" loading="lazy" decoding="async" />
           </figure>
         </article>
 
         <article class="showcase-item reveal">
           <figure class="showcase-image">
-            <img src="app-screen-closeup.png" alt="Spurna accountability details screen" />
+            <img src="app-screen-closeup.webp" alt="Spurna politician accountability details screen" width="1024" height="1536" loading="lazy" decoding="async" />
           </figure>
           <div class="showcase-copy">
-            <h2>Accontablity Visulized</h2>
+            <h2>Accountability Visualized</h2>
             <p>
               See where politicians stand on key issues within the political
               spectrum.
@@ -132,7 +226,11 @@
           <article class="person-card">
             <img
               src="team-alivin.jpeg"
-              alt="Portrait of Alivin Tai"
+              alt="Alivin Tai, Spurna co-founder"
+              width="414"
+              height="900"
+              loading="lazy"
+              decoding="async"
             />
             <h3>Alivin Tai</h3>
             <p>
@@ -147,7 +245,11 @@
             <img
               src="team-jackson.jpg"
               class="jackson-photo"
-              alt="Portrait of Jackson Noland"
+              alt="Jackson Noland, Spurna co-founder"
+              width="506"
+              height="563"
+              loading="lazy"
+              decoding="async"
             />
             <h3>Jackson Noland</h3>
             <p>
@@ -162,7 +264,11 @@
           <article class="person-card">
             <img
               src="team-dhruv.jpeg"
-              alt="Portrait of Dhruv Raghavan"
+              alt="Dhruv Raghavan, Spurna co-founder"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
             />
             <h3>Dhruv Raghavan</h3>
             <p>
@@ -192,7 +298,7 @@
           our assessment sign up to request a demo today to get hands-on
           experience with our prototype.
         </p>
-        <a class="button primary" href="#">Request a Demo</a>
+        <a class="button primary" href="mailto:noland@spurna.org?subject=Spurna%20Demo%20Request">Request a Demo</a>
       </section>
     </main>
 
@@ -202,6 +308,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
   </body>
 </html>
