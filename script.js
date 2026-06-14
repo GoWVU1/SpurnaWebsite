@@ -91,14 +91,11 @@ if (demoForm) {
         const message =
           data && data.errors
             ? data.errors.map((e) => e.message).join(', ')
-            : 'Something went wrong. Please email noland@spurna.org.';
+            : 'Something went wrong. Please try again in a moment.';
         setStatus(message, 'error');
       }
     } catch (error) {
-      setStatus(
-        'Network error. Please try again or email noland@spurna.org.',
-        'error'
-      );
+      setStatus('Network error. Please try again in a moment.', 'error');
     } finally {
       submitButton.disabled = false;
     }
