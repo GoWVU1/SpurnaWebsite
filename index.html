@@ -13,7 +13,7 @@
 
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'"
+      content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; object-src 'none'; base-uri 'self'"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#0b6bff" />
@@ -46,7 +46,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=3" />
     <link rel="preload" as="image" href="app-start-page.webp" />
 
     <script type="application/ld+json">
@@ -298,7 +298,33 @@
           our assessment sign up to request a demo today to get hands-on
           experience with our prototype.
         </p>
-        <a class="button primary" href="mailto:noland@spurna.org?subject=Spurna%20Demo%20Request">Request a Demo</a>
+        <form
+          class="demo-form"
+          action="https://formspree.io/f/mdavyaav"
+          method="POST"
+          data-demo-form
+        >
+          <div class="form-row">
+            <label class="visually-hidden" for="demo-name">Your name</label>
+            <input id="demo-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="form-row">
+            <label class="visually-hidden" for="demo-email">Email address</label>
+            <input id="demo-email" type="email" name="email" placeholder="Email address" required autocomplete="email" />
+          </div>
+          <div class="form-row">
+            <label class="visually-hidden" for="demo-org">Organization (optional)</label>
+            <input id="demo-org" type="text" name="organization" placeholder="Organization (optional)" autocomplete="organization" />
+          </div>
+          <div class="form-row">
+            <label class="visually-hidden" for="demo-message">What would you like to see?</label>
+            <textarea id="demo-message" name="message" rows="3" placeholder="What would you like to see in the demo? (optional)"></textarea>
+          </div>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
+          <input type="hidden" name="_subject" value="New Spurna demo request" />
+          <button class="button primary" type="submit">Request a Demo</button>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
       </section>
     </main>
 
@@ -308,6 +334,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
   </body>
 </html>

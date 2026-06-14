@@ -56,3 +56,51 @@ if (revealItems.length) {
     observer.observe(item);
   });
 }
+
+const demoForm = document.querySelector('[data-demo-form]');
+
+if (demoForm) {
+  const status = demoForm.querySelector('[data-form-status]');
+  const submitButton = demoForm.querySelector('button[type="submit"]');
+
+  const setStatus = (message, state) => {
+    if (!status) return;
+    status.textContent = message;
+    status.classList.toggle('is-success', state === 'success');
+    status.classList.toggle('is-error', state === 'error');
+  };
+
+  demoForm.addEventListener('submit', async (event) => {
+    // Don't hijack the submit unless we can fall back gracefully on failure.
+    event.preventDefault();
+    setStatus('Sending…', null);
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch(demoForm.action, {
+        method: 'POST',
+        body: new FormData(demoForm),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        demoForm.reset();
+        setStatus("Thanks! We'll be in touch about your demo soon.", 'success');
+      } else {
+        const data = await response.json().catch(() => null);
+        const message =
+          data && data.errors
+            ? data.errors.map((e) => e.message).join(', ')
+            : 'Something went wrong. Please email noland@spurna.org.';
+        setStatus(message, 'error');
+      }
+    } catch (error) {
+      setStatus(
+        'Network error. Please try again or email noland@spurna.org.',
+        'error'
+      );
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+}
