@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spurna — AI-Powered Political Accountability &amp; Campaign Promise Tracker</title>
+    <title>Spurna — Coming Soon | Nonpartisan Political Accountability</title>
     <meta
       name="description"
-      content="Spurna uses AI to track campaign promises and hold politicians accountable. See where leaders stand on key issues, understand bills in plain English, and vote on policy — not party."
+      content="Spurna turns a politician's scattered record into something you can read in seconds — promises tracked, positions compared, every claim sourced. Nonpartisan by architecture. Coming soon."
     />
     <link rel="canonical" href="https://spurna.org/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -16,38 +16,38 @@
       content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; object-src 'none'; base-uri 'self'"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content="#0b6bff" />
+    <meta name="theme-color" content="#16201c" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Spurna" />
-    <meta property="og:title" content="Spurna — AI-Powered Political Accountability" />
+    <meta property="og:title" content="Spurna — See Clearly. Decide for Yourself." />
     <meta
       property="og:description"
-      content="Track campaign promises, see where politicians stand on key issues, and hold leaders accountable with AI-powered analysis."
+      content="Where they stand. What they promised. What they did. Spurna gathers the political record into one clear, sourced view — the same standard for everyone. Coming soon."
     />
     <meta property="og:url" content="https://spurna.org/" />
     <meta property="og:image" content="https://spurna.org/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Spurna — AI-Powered Political Accountability" />
+    <meta name="twitter:title" content="Spurna — See Clearly. Decide for Yourself." />
     <meta
       name="twitter:description"
-      content="Track campaign promises, see where politicians stand on key issues, and hold leaders accountable with AI-powered analysis."
+      content="Where they stand. What they promised. What they did. Spurna gathers the political record into one clear, sourced view — the same standard for everyone. Coming soon."
     />
     <meta name="twitter:image" content="https://spurna.org/og-image.jpg" />
 
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=3" />
-    <link rel="preload" as="image" href="app-start-page.webp" />
+    <link rel="stylesheet" href="styles.css?v=6" />
 
     <script type="application/ld+json">
     {
@@ -59,7 +59,8 @@
           "name": "Spurna",
           "url": "https://spurna.org/",
           "logo": "https://spurna.org/og-image.jpg",
-          "description": "Spurna uses AI to track campaign promises and hold politicians accountable.",
+          "description": "Spurna is a nonpartisan political accountability platform that turns a politician's scattered record into a clear, sourced view — promises tracked, positions compared, the same standard for everyone.",
+          "slogan": "See clearly. Decide for yourself.",
           "founder": [
             { "@id": "https://spurna.org/#alivin-tai" },
             { "@id": "https://spurna.org/#jackson-noland" },
@@ -72,7 +73,7 @@
           "name": "Alivin Tai",
           "jobTitle": "Co-Founder",
           "image": "https://spurna.org/team-alivin.jpeg",
-          "url": "https://spurna.org/#about",
+          "url": "https://spurna.org/#team",
           "worksFor": { "@id": "https://spurna.org/#organization" },
           "alumniOf": "McGill University"
         },
@@ -82,7 +83,7 @@
           "name": "Jackson Noland",
           "jobTitle": "Co-Founder",
           "image": "https://spurna.org/team-jackson.jpg",
-          "url": "https://spurna.org/#about",
+          "url": "https://spurna.org/#team",
           "worksFor": { "@id": "https://spurna.org/#organization" },
           "alumniOf": "Vanderbilt University"
         },
@@ -92,7 +93,7 @@
           "name": "Dhruv Raghavan",
           "jobTitle": "Co-Founder",
           "image": "https://spurna.org/team-dhruv.jpeg",
-          "url": "https://spurna.org/#about",
+          "url": "https://spurna.org/#team",
           "worksFor": { "@id": "https://spurna.org/#organization" },
           "alumniOf": "Brown University"
         },
@@ -107,233 +108,491 @@
     </script>
   </head>
   <body>
-    <header class="site-header">
-      <div class="container nav-wrap">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- ================= HERO (INK) ================= -->
+    <header class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="hero-nav">
         <a class="brand" href="/">
-          <img class="brand-logo" src="spurna-logo.webp" alt="Spurna logo" width="288" height="192" />
-          <span class="brand-text">Spurna</span>
+          <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="4" />
+            <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="8" fill="#B0903D" />
+          </svg>
+          <span class="brand-text">Spurna<span class="dot">.</span></span>
         </a>
-
-        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">Menu</button>
-
-        <nav class="site-nav" data-nav>
-          <a href="#product">Product</a>
-          <a href="#about">About Us</a>
-          <a href="#mission">Mission</a>
-          <a class="button primary" href="#demo">Request a Demo</a>
+        <nav aria-label="Primary navigation">
+          <a href="#product">The Product</a>
+          <a href="#myth">The Myth</a>
+          <a href="#team">The Team</a>
+          <a class="nav-pill" href="#demo">Request a Demo</a>
         </nav>
+      </div>
+
+      <div class="hero-main">
+        <svg class="hero-mark" viewBox="0 0 100 100" fill="none" role="img" aria-label="The Spurna mark: an open eye">
+          <circle class="mark-draw" pathLength="1" cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2" />
+          <path class="mark-draw" pathLength="1" d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+          <path class="mark-draw" pathLength="1" d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+          <circle cx="50" cy="50" r="7" fill="#B0903D" />
+        </svg>
+        <span class="hero-eyebrow">Nonpartisan political accountability</span>
+        <h1>See clearly.<br />Decide for yourself<span class="dot">.</span></h1>
+        <p class="hero-descriptor">Where they stand · What they promised · What they did</p>
+
+        <div class="countdown-wrap">
+          <p class="visually-hidden">Launching August 20, 2026 — until the record opens.</p>
+          <div class="countdown" data-countdown data-launch="2026-08-20T09:00:00" aria-hidden="true">
+            <div class="cd-cell"><div class="cd-num" data-cd="days">00</div><div class="cd-label">Days</div></div>
+            <div class="cd-cell"><div class="cd-num" data-cd="hours">00</div><div class="cd-label">Hours</div></div>
+            <div class="cd-cell"><div class="cd-num" data-cd="mins">00</div><div class="cd-label">Minutes</div></div>
+            <div class="cd-cell"><div class="cd-num" data-cd="secs">00</div><div class="cd-label">Seconds</div></div>
+          </div>
+          <span class="countdown-caption" aria-hidden="true">Until the record opens</span>
+        </div>
       </div>
     </header>
 
-    <main>
-      <section class="hero container">
-        <h1>Politics Reimagined</h1>
-        <p>
-          Leveraging AI and political actions to hold politicians accountable to their
-          promises.
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href="#demo">Request a Demo</a>
-          <a class="button ghost" href="#product">See Product</a>
-        </div>
-
-        <div class="hero-visuals" role="presentation">
-          <figure class="phone-card phone-main hero-phone">
-            <img src="app-start-page.webp" alt="Spurna app start page showing political accountability scores" width="1024" height="762" fetchpriority="high" />
-          </figure>
-        </div>
-      </section>
-
-      <section class="showcase container" id="product">
-        <article class="showcase-item reveal">
-          <div class="showcase-copy">
-            <h2>Campaign Promises Tracked</h2>
-            <p>
-              See how well different political parties follow through with their
-              campaign promises in one easy glance.
-            </p>
-          </div>
-          <figure class="showcase-image">
-            <img src="app-screen-outside.webp" alt="Spurna campaign promise scorecards screen" width="1024" height="1536" loading="lazy" decoding="async" />
-          </figure>
-        </article>
-
-        <article class="showcase-item reveal">
-          <figure class="showcase-image">
-            <img src="app-screen-closeup.webp" alt="Spurna politician accountability details screen" width="1024" height="1536" loading="lazy" decoding="async" />
-          </figure>
-          <div class="showcase-copy">
-            <h2>Accountability Visualized</h2>
-            <p>
-              See where politicians stand on key issues within the political
-              spectrum.
-            </p>
-          </div>
-        </article>
-      </section>
-
-      <section class="features container" id="benefits">
-        <article>
-          <h2>Accountability First</h2>
-          <p>Track exactly how each political stance is formed with ClipReview.</p>
-        </article>
-        <article>
-          <h2>Amendment Clarity</h2>
-          <p>
-            Understand what bills actually do through plain-English summaries
-            that include every amendment.
+    <main id="main" tabindex="-1">
+      <!-- ================= WHAT SPURNA IS (PARCHMENT) ================= -->
+      <section class="s-parchment">
+        <div class="container-narrow what">
+          <span class="eyebrow" data-reveal>What Spurna is</span>
+          <p class="statement" data-reveal>
+            A nonpartisan platform that turns a politician's scattered record
+            into something you can read in seconds — their promises, their
+            positions, and how many of those promises they actually kept.
           </p>
-        </article>
-        <article>
-          <h2>Built to adapt</h2>
-          <p>
-            See how politicians' actions today signal the future direction of
-            their party.
+        </div>
+      </section>
+
+      <!-- ================= FEATURE · SIDE BY SIDE (MIST) ================= -->
+      <section class="s-mist" id="product">
+        <div class="container-wide feature">
+          <div class="feature-copy" data-reveal>
+            <span class="eyebrow">Side by side</span>
+            <h2>Put anyone against anyone.</h2>
+            <p class="body">
+              Compare any two politicians on where they stand and how true they
+              are to their word. No spin and no partisan advantage — just
+              data-backed results.
+            </p>
+            <span class="kicker">Sitting politicians and candidates alike</span>
+          </div>
+
+          <div class="feature-visual wide" data-reveal aria-hidden="true">
+            <div class="browser">
+              <div class="browser-bar">
+                <span class="bdot red"></span><span class="bdot gold"></span><span class="bdot patina"></span>
+                <div class="urlbar">spurna.org/compare</div>
+              </div>
+              <div class="browser-page">
+                <div class="cmp-nav">
+                  <div class="cmp-nav-brand">
+                    <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                      <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="5" />
+                      <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+                      <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+                      <circle cx="50" cy="50" r="9" fill="#B0903D" />
+                    </svg>
+                    <span>Spurna</span>
+                  </div>
+                  <div class="cmp-nav-tabs"><span>Profiles</span><span>Issues</span><span>Leaderboards</span><span class="active">Compare</span></div>
+                </div>
+                <div class="cmp-body">
+                  <div class="cmp-title-row">
+                    <h4>Side by side</h4>
+                    <span class="kicker">Same standard for everyone</span>
+                  </div>
+                  <div class="cmp-cards">
+                    <div class="cmp-card blue">
+                      <div class="cmp-person">
+                        <div class="avatar blue">ME</div>
+                        <div>
+                          <div class="person-name">Sen. Mara Ellison</div>
+                          <div class="person-meta">Senate · District 4</div>
+                        </div>
+                      </div>
+                      <div class="stat-label">Promises kept</div>
+                      <div class="stat-big"><span class="num">74</span><span class="unit">%</span></div>
+                      <div class="bar"><div class="bar-fill blue fill-74"></div></div>
+                    </div>
+                    <div class="cmp-card red">
+                      <div class="cmp-person">
+                        <div class="avatar red">DC</div>
+                        <div>
+                          <div class="person-name">Sen. David Cole</div>
+                          <div class="person-meta">Senate · District 9</div>
+                        </div>
+                      </div>
+                      <div class="stat-label">Promises kept</div>
+                      <div class="stat-big"><span class="num">61</span><span class="unit">%</span></div>
+                      <div class="bar"><div class="bar-fill red fill-61"></div></div>
+                    </div>
+                  </div>
+                  <div class="stance-panel">
+                    <div class="stance-head">
+                      <span class="stat-label">Where they stand</span>
+                      <span class="stance-legend">
+                        <span class="key"><span class="swatch blue"></span>Ellison</span>
+                        <span class="key"><span class="swatch red"></span>Cole</span>
+                      </span>
+                    </div>
+                    <div class="stance-row">
+                      <span class="issue">Healthcare</span>
+                      <div class="stance-track"><span class="stance-dot blue at-30"></span><span class="stance-dot red at-68"></span></div>
+                    </div>
+                    <div class="stance-row">
+                      <span class="issue">Climate</span>
+                      <div class="stance-track"><span class="stance-dot blue at-22"></span><span class="stance-dot red at-80"></span></div>
+                    </div>
+                    <div class="stance-row">
+                      <span class="issue">Taxes</span>
+                      <div class="stance-track"><span class="stance-dot blue at-44"></span><span class="stance-dot red at-58"></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= THE MYTH (INK) ================= -->
+      <section class="s-ink" id="myth">
+        <div class="myth-glow" aria-hidden="true"></div>
+        <div class="container-narrow myth-inner">
+          <div data-reveal>
+            <span class="eyebrow gold myth-eyebrow">The name &amp; the myth</span>
+            <p class="myth-body">
+              In 44 BCE, a Roman seer named <strong>Spurinna</strong> read the
+              signs and warned Caesar of the danger gathered around the Ides of
+              March. Caesar heard the warning. He simply chose not to listen.
+            </p>
+          </div>
+          <blockquote class="myth-quote" data-reveal>
+            <p>A warning is only as powerful as the public's ability to see it — and act before the knife.</p>
+          </blockquote>
+          <p class="myth-body" data-reveal>
+            That is the gap Spurna was built to close.
+            The ancient oracle read the flight of birds and the lay of the
+            stars. We read the modern record: the votes, the statements, the
+            promises made on the campaign trail and what came after. We take
+            the oracle out of the temple and hand a copy to every citizen.
           </p>
-        </article>
+          <p class="myth-body" data-reveal>
+            The name carries two truths at once: <strong>Spurinna</strong>, the
+            one who reads the signs and sounds the warning, and <strong>to
+            spurn</strong>, the refusal to passively accept whatever power
+            claims. Reverence for the truth; irreverence toward the spin.
+          </p>
+
+          <div class="principles" data-reveal>
+            <div class="principle">
+              <span class="pn">I</span>
+              <h3>Nonpartisan by architecture</h3>
+              <p>The same template, the same evidence bar, the same scrutiny for everyone.</p>
+            </div>
+            <div class="principle">
+              <span class="pn">II</span>
+              <h3>Evidence or it didn't happen</h3>
+              <p>Every position and promise traces to a primary source you can click.</p>
+            </div>
+            <div class="principle">
+              <span class="pn">III</span>
+              <h3>We show you the facts</h3>
+              <p>We never tell you how to feel about them.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section class="stats container">
-        <div>
-          <strong>National + Local</strong>
-          <span>
-            Follow both state and national leaders to understand politics that
-            impact you directly.
-          </span>
-        </div>
-        <div>
-          <strong>Clarity by Design</strong>
-          <span>
-            A clean, intuitive layout that makes every politician
-            understandable at a glance.
-          </span>
-        </div>
-        <div>
-          <strong>Political Connection</strong>
-          <span>Discover politicians who align with your personal beliefs.</span>
-        </div>
-      </section>
-
-
-      <section class="about container" id="about">
-        <h2>Meet the team behind Spurna</h2>
-        <p class="about-intro">
-          We are three college students who were brought together by our shared
-          passion for political transparency.
-        </p>
-
-        <div class="about-grid">
-          <article class="person-card">
-            <img
-              src="team-alivin.jpeg"
-              alt="Alivin Tai, Spurna co-founder"
-              width="414"
-              height="900"
-              loading="lazy"
-              decoding="async"
-            />
-            <h3>Alivin Tai</h3>
-            <p>
-              Co-founder focused on artificial intelligence integration and data
-              review. A third year student at McGill University, Alivin is
-              inspired by sports analytics and bringing insights from the sports
-              world to politics.
+      <!-- ================= FEATURE · THE PROFILE (PARCHMENT, reversed) ================= -->
+      <section class="s-parchment">
+        <div class="container-wide feature reverse">
+          <div class="feature-copy" data-reveal>
+            <span class="eyebrow">The profile</span>
+            <h2>One page for the whole record.</h2>
+            <p class="body">
+              Every promise, position, and vote, gathered in one place and
+              scored against a single standard — with each figure traced to a
+              primary source you can click.
             </p>
-          </article>
+            <span class="kicker">One accountability score · fully sourced</span>
+          </div>
 
-          <article class="person-card">
-            <img
-              src="team-jackson.jpg"
-              class="jackson-photo"
-              alt="Jackson Noland, Spurna co-founder"
-              width="506"
-              height="563"
-              loading="lazy"
-              decoding="async"
-            />
-            <h3>Jackson Noland</h3>
-            <p>
-              Co-founder leading partnerships, growth, product direction, and
-              day-to-day operations so Spurna can provide reliable analysis. A
-              third year student at Vanderbilt studying Political Science and
-              Human and Organization Development, Jackson strives to create a
-              more transparent future for American politics.
-            </p>
-          </article>
-
-          <article class="person-card">
-            <img
-              src="team-dhruv.jpeg"
-              alt="Dhruv Raghavan, Spurna co-founder"
-              width="400"
-              height="400"
-              loading="lazy"
-              decoding="async"
-            />
-            <h3>Dhruv Raghavan</h3>
-            <p>
-              Co-Founder focused on leading design and technical execution to
-              keep the Spurna product simple, fast, and reliable. A third year
-              student at Brown University majoring in Computer Science and
-              Mathematics, Dhruv has a passion for technological accountability.
-            </p>
-          </article>
+          <div class="feature-visual" data-reveal aria-hidden="true">
+            <div class="mock-card">
+              <div class="mock-head">
+                <div class="mock-head-brand">
+                  <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" />
+                    <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                    <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                    <circle cx="50" cy="50" r="10" fill="#B0903D" />
+                  </svg>
+                  <span>Profile</span>
+                </div>
+                <span class="mock-head-tabs">Issues · Compare</span>
+              </div>
+              <div class="mock-body">
+                <div class="profile-person">
+                  <div class="avatar patina">AR</div>
+                  <div>
+                    <div class="person-name">Rep. Alex Rivera</div>
+                    <div class="person-meta">House · District 12 · 3rd term</div>
+                  </div>
+                </div>
+                <div class="score-panel">
+                  <div class="donut">
+                    <svg viewBox="0 0 36 36" aria-hidden="true">
+                      <circle cx="18" cy="18" r="15.5" fill="none" stroke="#e2dece" stroke-width="3.4" />
+                      <circle cx="18" cy="18" r="15.5" fill="none" stroke="#2C6E62" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="97.4" stroke-dashoffset="31.2" transform="rotate(-90 18 18)" />
+                    </svg>
+                    <div class="donut-num">68%</div>
+                  </div>
+                  <div>
+                    <div class="stat-label">Overall score</div>
+                    <div class="score-caption">Promises kept, of 41 tracked</div>
+                  </div>
+                </div>
+                <div class="stat-label">Recent actions</div>
+                <div class="action-row">
+                  <div>
+                    <div class="action-title">Voted YES · Clean Energy Act</div>
+                    <div class="action-date">Mar 2026</div>
+                  </div>
+                  <span class="pill kept">Kept</span>
+                </div>
+                <div class="action-row">
+                  <div>
+                    <div class="action-title">Statement · Healthcare</div>
+                    <div class="action-date">Feb 2026</div>
+                  </div>
+                  <span class="pill neutral">New position</span>
+                </div>
+                <div class="action-row">
+                  <div>
+                    <div class="action-title">Voted NO · Tax Relief Bill</div>
+                    <div class="action-date">Jan 2026</div>
+                  </div>
+                  <span class="pill reversal">Reversal</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="mission container" id="mission">
-        <h2>Our mission</h2>
-        <p>
-          Today, most voters choose a party - not a set of beliefs. We're changing
-          that by exposing what politicians actually stand for and how they act.
-          We strive to cut through the noise, giving people the tools to vote on
-          policy and hold leaders accountable when they fall short.
-        </p>
+      <!-- ================= HOW IT WORKS (MIST) ================= -->
+      <section class="s-mist">
+        <div class="container">
+          <div class="sec-center" data-reveal>
+            <span class="eyebrow">How it works</span>
+            <h2>Did they do what they said?</h2>
+          </div>
+          <div class="step-grid" data-reveal>
+            <div class="step-card">
+              <div class="step-no">01</div>
+              <h3>We gather the record</h3>
+              <p>Votes, statements, and promises pulled together from public sources into one place.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-no">02</div>
+              <h3>We structure &amp; score it</h3>
+              <p>The same evidence bar for everyone — a single score for the share of promises kept.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-no">03</div>
+              <h3>You see clearly</h3>
+              <p>Compare anyone to anyone, read where they stand, and decide for yourself.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section class="cta container" id="demo">
-        <h2>Request a live Spurna demo.</h2>
-        <p>
-          Spurna is coming soon! Until then as we actively ensure the rigor of
-          our assessment sign up to request a demo today to get hands-on
-          experience with our prototype.
-        </p>
-        <form
-          class="demo-form"
-          action="https://formspree.io/f/mdavyaav"
-          method="POST"
-          data-demo-form
-        >
-          <div class="form-row">
-            <label class="visually-hidden" for="demo-name">Your name</label>
-            <input id="demo-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+      <!-- ================= FEATURE · LEADERBOARDS (PARCHMENT) ================= -->
+      <section class="s-parchment">
+        <div class="container-wide feature">
+          <div class="feature-copy" data-reveal>
+            <span class="eyebrow">Leaderboards</span>
+            <h2>See who's keeping score.</h2>
+            <p class="body">
+              Rank politicians by how they've actually acted on the issues you
+              care about — and see exactly what percentile they land in.
+            </p>
+            <span class="kicker">Across every belief and issue</span>
           </div>
-          <div class="form-row">
-            <label class="visually-hidden" for="demo-email">Email address</label>
-            <input id="demo-email" type="email" name="email" placeholder="Email address" required autocomplete="email" />
+
+          <div class="feature-visual" data-reveal aria-hidden="true">
+            <div class="mock-card">
+              <div class="mock-head">
+                <div class="mock-head-brand">
+                  <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" />
+                    <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                    <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                    <circle cx="50" cy="50" r="10" fill="#B0903D" />
+                  </svg>
+                  <span>Leaderboard</span>
+                </div>
+                <span class="mock-head-tabs">Issue · Climate</span>
+              </div>
+              <div class="mock-body">
+                <div class="lb-title-row">
+                  <h4>Accountability · Climate</h4>
+                  <span class="kicker">Percentile</span>
+                </div>
+                <div class="lb-row">
+                  <span class="rank">1</span>
+                  <div class="avatar blue">ME</div>
+                  <div class="lb-main">
+                    <div class="person-name">Sen. Mara Ellison</div>
+                    <div class="bar"><div class="bar-fill patina fill-91"></div></div>
+                  </div>
+                  <span class="lb-score">91</span>
+                </div>
+                <div class="lb-row">
+                  <span class="rank">2</span>
+                  <div class="avatar patina">AR</div>
+                  <div class="lb-main">
+                    <div class="person-name">Rep. Alex Rivera</div>
+                    <div class="bar"><div class="bar-fill patina fill-84"></div></div>
+                  </div>
+                  <span class="lb-score">84</span>
+                </div>
+                <div class="lb-row">
+                  <span class="rank">3</span>
+                  <div class="avatar red">DC</div>
+                  <div class="lb-main">
+                    <div class="person-name">Sen. David Cole</div>
+                    <div class="bar"><div class="bar-fill patina fill-62"></div></div>
+                  </div>
+                  <span class="lb-score">62</span>
+                </div>
+                <div class="lb-row">
+                  <span class="rank">4</span>
+                  <div class="avatar blue">JW</div>
+                  <div class="lb-main">
+                    <div class="person-name">Gov. Jordan West</div>
+                    <div class="bar"><div class="bar-fill patina fill-55"></div></div>
+                  </div>
+                  <span class="lb-score">55</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-row">
-            <label class="visually-hidden" for="demo-org">Organization (optional)</label>
-            <input id="demo-org" type="text" name="organization" placeholder="Organization (optional)" autocomplete="organization" />
+        </div>
+      </section>
+
+      <!-- ================= THE TEAM (MIST) ================= -->
+      <section class="s-mist" id="team">
+        <div class="container">
+          <div class="sec-center" data-reveal>
+            <span class="eyebrow">Who's behind Spurna</span>
+            <h2>Three students, one shared conviction.</h2>
+            <p class="sub">Brought together by a shared passion for political transparency.</p>
           </div>
-          <div class="form-row">
-            <label class="visually-hidden" for="demo-message">What would you like to see?</label>
-            <textarea id="demo-message" name="message" rows="3" placeholder="What would you like to see in the demo? (optional)"></textarea>
+          <div class="team-grid" data-reveal>
+            <div class="team-card">
+              <img class="team-photo alivin-photo" src="team-alivin.jpeg" alt="Alivin Tai speaking at a podium" width="414" height="900" loading="lazy" decoding="async" />
+              <h3>Alivin Tai</h3>
+              <div class="role">Co-founder · AI &amp; Data</div>
+              <p>McGill University. Brings insights from the world of sports analytics to politics.</p>
+            </div>
+            <div class="team-card">
+              <img class="team-photo jackson-photo" src="team-jackson.jpg" alt="Jackson Noland" width="506" height="563" loading="lazy" decoding="async" />
+              <h3>Jackson Noland</h3>
+              <div class="role">Co-founder · Partnerships &amp; Product</div>
+              <p>Vanderbilt, Political Science &amp; HOD. Leads growth, direction, and day-to-day operations.</p>
+            </div>
+            <div class="team-card">
+              <img class="team-photo dhruv-photo" src="team-dhruv.jpeg" alt="Dhruv Raghavan" width="400" height="400" loading="lazy" decoding="async" />
+              <h3>Dhruv Raghavan</h3>
+              <div class="role">Co-founder · Design &amp; Engineering</div>
+              <p>Brown University, CS &amp; Mathematics. Keeps the product simple, fast, and reliable.</p>
+            </div>
           </div>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
-          <input type="hidden" name="_subject" value="New Spurna demo request" />
-          <button class="button primary" type="submit">Request a Demo</button>
-          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-        </form>
+        </div>
+      </section>
+
+      <!-- ================= REQUEST A DEMO (PARCHMENT) ================= -->
+      <section class="s-parchment" id="demo">
+        <div class="demo-inner" data-reveal>
+          <span class="eyebrow">Request a demo</span>
+          <h2>See it before the record opens<span class="dot">.</span></h2>
+          <p class="sub">
+            Spurna is in active development while we ensure the rigor of our
+            assessment. Leave your details and we'll reach out to schedule a
+            hands-on walkthrough of the prototype.
+          </p>
+          <form
+            class="demo-form"
+            action="https://formspree.io/f/mdavyaav"
+            method="POST"
+            data-demo-form
+          >
+            <div class="form-row">
+              <label class="visually-hidden" for="demo-name">Your name</label>
+              <input id="demo-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+            </div>
+            <div class="form-row">
+              <label class="visually-hidden" for="demo-email">Email address</label>
+              <input id="demo-email" type="email" name="email" placeholder="Email address" required autocomplete="email" />
+            </div>
+            <div class="form-row">
+              <label class="visually-hidden" for="demo-org">Organization (optional)</label>
+              <input id="demo-org" type="text" name="organization" placeholder="Organization (optional)" autocomplete="organization" />
+            </div>
+            <div class="form-row">
+              <label class="visually-hidden" for="demo-message">What would you like to see?</label>
+              <textarea id="demo-message" name="message" rows="3" placeholder="What would you like to see in the demo? (optional)"></textarea>
+            </div>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden" />
+            <input type="hidden" name="_subject" value="New Spurna demo request" />
+            <button type="submit">Request a Demo</button>
+            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= MISSION (INK) ================= -->
+      <section class="s-ink mission" id="mission">
+        <div class="mission-glow" aria-hidden="true"></div>
+        <div class="mission-inner" data-reveal>
+          <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2" />
+            <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+            <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="7" fill="#B0903D" />
+          </svg>
+          <span class="eyebrow gold">Our mission</span>
+          <p class="mission-line">To make political accountability accessible and transparent<span class="dot">.</span></p>
+        </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2026 Spurna.</p>
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="4" />
+            <path d="M22 42 Q50 27 78 42" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <path d="M22 58 Q50 73 78 58" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="8" fill="#B0903D" />
+          </svg>
+          <div>
+            <div class="footer-wordmark">Spurna<span class="dot">.</span></div>
+            <div class="footer-tag">See clearly. Decide for yourself.</div>
+          </div>
+        </div>
+        <span class="footer-note">© 2026 Spurna · Coming soon</span>
       </div>
     </footer>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=6"></script>
   </body>
 </html>

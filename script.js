@@ -1,62 +1,69 @@
-const toggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('[data-nav]');
+// Gate reveal-hiding on this class so content is never invisible if JS fails.
+document.documentElement.classList.add('js');
 
-if (toggle && nav) {
-  const setMenu = (isOpen) => {
-    nav.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+// ============ Reveal on scroll ============
+const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+
+if (revealEls.length) {
+  const revealAll = () => revealEls.forEach((el) => el.classList.add('in'));
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealAll();
+  } else {
+    // Failsafe: whatever happens, never leave content hidden.
+    setTimeout(revealAll, 1800);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14 }
+    );
+    revealEls.forEach((el) => io.observe(el));
+  }
+}
+
+// ============ Countdown ============
+const countdown = document.querySelector('[data-countdown]');
+
+if (countdown) {
+  const target = new Date(countdown.dataset.launch).getTime();
+  const cells = {
+    days: countdown.querySelector('[data-cd="days"]'),
+    hours: countdown.querySelector('[data-cd="hours"]'),
+    mins: countdown.querySelector('[data-cd="mins"]'),
+    secs: countdown.querySelector('[data-cd="secs"]'),
+  };
+  const pad = (n) => String(n).padStart(2, '0');
+
+  const tick = () => {
+    let diff = Math.max(0, target - Date.now());
+    const d = Math.floor(diff / 86400000);
+    diff -= d * 86400000;
+    const h = Math.floor(diff / 3600000);
+    diff -= h * 3600000;
+    const m = Math.floor(diff / 60000);
+    diff -= m * 60000;
+    const s = Math.floor(diff / 1000);
+    cells.days.textContent = pad(d);
+    cells.hours.textContent = pad(h);
+    cells.mins.textContent = pad(m);
+    cells.secs.textContent = pad(s);
   };
 
-  toggle.addEventListener('click', () => {
-    setMenu(!nav.classList.contains('open'));
-  });
-
-  nav.addEventListener('click', (event) => {
-    if (event.target.closest('a')) {
-      setMenu(false);
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && nav.classList.contains('open')) {
-      setMenu(false);
-      toggle.focus();
-    }
-  });
-
-  document.addEventListener('click', (event) => {
-    if (
-      nav.classList.contains('open') &&
-      !nav.contains(event.target) &&
-      !toggle.contains(event.target)
-    ) {
-      setMenu(false);
-    }
-  });
+  tick();
+  setInterval(tick, 1000);
 }
 
-const revealItems = document.querySelectorAll('.reveal');
-
-if (revealItems.length) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-
-  revealItems.forEach((item, index) => {
-    item.style.transitionDelay = `${index * 120}ms`;
-    observer.observe(item);
-  });
-}
-
+// ============ Demo request form (Formspree) ============
 const demoForm = document.querySelector('[data-demo-form]');
 
 if (demoForm) {
