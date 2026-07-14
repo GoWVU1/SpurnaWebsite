@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "spurna-site",
+      "name": "spurna-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4174"],
-      "port": 4174
+      "runtimeArgs": ["-m", "http.server", "8321"],
+      "port": 8321
     }
   ]
 }

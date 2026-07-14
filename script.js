@@ -1,5 +1,5 @@
-// Gate reveal-hiding on this class so content is never invisible if JS fails.
-document.documentElement.classList.add('js');
+// html.js (which gates reveal-hiding) is set by the inline head script in
+// index.html so it applies before first render.
 
 // ============ Reveal on scroll ============
 const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
