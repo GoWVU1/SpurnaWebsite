@@ -3,6 +3,7 @@
 The `/candidates/` page reads 2026 ballot-verified candidate profiles from
 PostgreSQL. Scores and source text stay in the database; this repository contains
 only the presentation and a small read-only API.
+The current verified roster covers California, Maryland, and Michigan.
 
 The API in `server.py` serves:
 
