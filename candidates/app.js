@@ -11,6 +11,7 @@ const ISSUE_NAMES = {
 
 const STATUS = {
   scored: 'Issue scores available',
+  insufficient_evidence: 'No position established',
   in_progress: 'Scoring in progress',
   ready_to_score: 'Evidence ready',
   awaiting_evidence: 'Awaiting evidence',
@@ -61,7 +62,10 @@ function seat(candidate) {
 }
 
 function scoreText(candidate) {
-  if (candidate.overall_lr_score_approx === null) return 'Overall position pending';
+  if (candidate.overall_lr_score_approx === null) {
+    return candidate.score_status === 'insufficient_evidence'
+      ? 'No position established' : 'Overall score unavailable';
+  }
   const name = BUCKET[candidate.overall_lr_bucket] || candidate.overall_lr_bucket;
   return `${name} · ${candidate.overall_lr_score_approx.toFixed(2)}`;
 }
@@ -83,7 +87,7 @@ function showCandidates() {
   for (const candidate of visible) {
     const card = element('button', 'card');
     card.type = 'button';
-    const badge = element('span', `badge ${candidate.score_status === 'awaiting_evidence' ? 'waiting' : ''}`, STATUS[candidate.score_status] || candidate.score_status);
+    const badge = element('span', `badge ${['awaiting_evidence', 'insufficient_evidence'].includes(candidate.score_status) ? 'waiting' : ''}`, STATUS[candidate.score_status] || candidate.score_status);
     card.append(badge);
     card.append(element('span', 'card-name', candidate.display_name));
     card.append(element('span', 'card-seat', `${candidate.party || 'Party unknown'} · ${seat(candidate)}`));
