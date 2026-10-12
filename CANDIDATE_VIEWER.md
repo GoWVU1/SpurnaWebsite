@@ -13,7 +13,7 @@ It reads `mart.us_candidate_scorecard_2026` and
 `mart.us_candidate_issue_score_2026`. The scoring code and view definitions live
 in the PoliticsApp repository under `analytics/`.
 
-For local review, set `DATABASE_URL` to a PostgreSQL URL or set
+For local review, install `requirements.txt`, set `DATABASE_URL` to a PostgreSQL URL or set
 `POLITICSAPP_ENV_FILE` to a local `.env` file containing it, then run
 `python server.py --port 8766` and open `http://127.0.0.1:8766/candidates/`.
 Use a database account with SELECT-only privileges for a hosted deployment.
