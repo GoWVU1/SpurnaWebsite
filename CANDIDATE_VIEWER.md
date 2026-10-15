@@ -15,17 +15,16 @@ The API in `server.py` serves:
 - `GET /api/lawmakers/<member_id>` — overall, 14 policy-area, and 54 detailed issue positions
 
 It reads `mart.us_candidate_scorecard_2026`,
-`mart.us_candidate_v4_display`, and
+fit-keyed `mart.us_candidate_v4_calibrations`, and
 `mart.us_candidate_issue_score_2026`, along with the versioned
 `mart.us_national_v4_fits` and `mart.us_national_v4_member_scores`. The
 scoring code and view definitions live
 in the PoliticsApp repository under `analytics/`.
 
-The display view uses the most recent fully loaded, converged national fit
-with a complete candidate calibration. Until one exists, it serves the
-versioned fit-2 diagnostic calibration already on the site. The lawmaker
-viewer selects the same fit: newest complete converged fit, or the original
-site fit while no fit has passed diagnostics. The API includes
+The API selects the most recent fully loaded, converged national fit with a
+complete candidate calibration and independent Senate rows. Until one exists,
+it serves the versioned fit-2 diagnostic calibration already on the site. The
+lawmaker and candidate endpoints select the same fit. The API includes
 `fit_status` so a diagnostic score can be identified explicitly. Each
 calibration is also available by fit hash in
 `mart.us_candidate_v4_calibrations`; rows without enough evidence keep a null

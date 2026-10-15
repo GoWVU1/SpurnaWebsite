@@ -96,8 +96,13 @@ class Handler(SimpleHTTPRequestHandler):
     def selected_national_fit(cur):
         """Use the newest converged fit, or the original site fit as fallback."""
         cur.execute("""SELECT fit_sha,status,archive_filename
-                         FROM mart.us_national_v4_fits
+                         FROM mart.us_national_v4_fits f
                         WHERE congress=119 AND load_status='complete'
+                          AND (status<>'converged' OR
+                               ((SELECT count(*) FROM mart.us_candidate_v4_calibrations c
+                                  WHERE c.fit_sha=f.fit_sha)=109
+                                AND (SELECT count(*) FROM mart.us_national_v4_senate_independent_scores i
+                                     WHERE i.fit_sha=f.fit_sha)=138))
                         ORDER BY CASE WHEN status='converged' THEN 0 ELSE 1 END,
                                  CASE WHEN status='converged' THEN imported_at END DESC,
                                  CASE WHEN status<>'converged' THEN imported_at END ASC
@@ -178,19 +183,23 @@ class Handler(SimpleHTTPRequestHandler):
                                       c.issue_count, c.cited_issue_count,
                                       c.overall_lr_bucket, c.overall_lr_score_approx,
                                       c.score_scale, c.score_status,
-                                      v.site_position_points, v.site_position_source,
-                                      v.state_holdout_mae_points, v.site_model_version,
-                                      v.fit_status, b.band_low AS rough_band_low,
+                                      v.site_position_points,
+                                      v.position_source AS site_position_source,
+                                      v.state_holdout_mae_points,
+                                      v.calibration_version AS site_model_version,
+                                      %s::text AS fit_status,
+                                      b.band_low AS rough_band_low,
                                       b.band_high AS rough_band_high,
                                       b.evidence_issues AS rough_evidence_issues,
                                       b.validation_mae_points AS rough_validation_mae_points
                                  FROM mart.us_candidate_scorecard_2026 c
-                                 LEFT JOIN mart.us_candidate_v4_display v
-                                   ON v.candidate_id = c.candidate_id
+                                 LEFT JOIN mart.us_candidate_v4_calibrations v
+                                   ON v.candidate_id = c.candidate_id AND v.fit_sha=%s
                                  LEFT JOIN mart.us_candidate_v4_statement_bridge_preview b
                                    ON b.candidate_id=c.candidate_id AND b.fit_sha=%s
                                 ORDER BY c.state, c.office, c.district, c.display_name""",
-                            (fit[0] if fit else "",))
+                            (fit[1] if fit else "unavailable",
+                             fit[0] if fit else "", fit[0] if fit else ""))
                 rows = records(cur)
             self.send_json({"candidates": rows, "count": len(rows)})
         except (psycopg2.Error, KeyError) as exc:
@@ -210,18 +219,22 @@ class Handler(SimpleHTTPRequestHandler):
                                       c.overall_lr_score_approx, c.economic_axis_bucket,
                                       c.social_axis_bucket, c.lr_method_note, c.score_scale,
                                       c.score_status, v.site_position_points,
-                                      v.site_position_source, v.state_holdout_mae_points,
-                                      v.site_model_version, v.fit_status,
+                                      v.position_source AS site_position_source,
+                                      v.state_holdout_mae_points,
+                                      v.calibration_version AS site_model_version,
+                                      %s::text AS fit_status,
                                       b.band_low AS rough_band_low,
                                       b.band_high AS rough_band_high,
                                       b.evidence_issues AS rough_evidence_issues,
                                       b.validation_mae_points AS rough_validation_mae_points
                                  FROM mart.us_candidate_scorecard_2026 c
-                                 LEFT JOIN mart.us_candidate_v4_display v
-                                   ON v.candidate_id = c.candidate_id
+                                 LEFT JOIN mart.us_candidate_v4_calibrations v
+                                   ON v.candidate_id = c.candidate_id AND v.fit_sha=%s
                                  LEFT JOIN mart.us_candidate_v4_statement_bridge_preview b
                                    ON b.candidate_id=c.candidate_id AND b.fit_sha=%s
-                                WHERE c.candidate_id=%s""", (fit[0] if fit else "", candidate_id))
+                                WHERE c.candidate_id=%s""",
+                            (fit[1] if fit else "unavailable", fit[0] if fit else "",
+                             fit[0] if fit else "", candidate_id))
                 profile_rows = records(cur)
                 if not profile_rows:
                     return self.send_json({"error": "Candidate not found."}, 404)
