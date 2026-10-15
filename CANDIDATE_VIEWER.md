@@ -91,3 +91,26 @@ with state-held-out lawmakers (7.10-point mean absolute error on the site's
 ±50 scale), but that describes a party distribution rather than an individual
 candidate. The current shared-rubric bridge fails independent Senate transfer
 checks for Sanders and King, so minor-party candidate numbers remain hidden.
+
+## Strict shared-rubric bridge check (15 October 2026)
+
+A separate read-only test compared a 20-issue rhetoric-to-v4 Ridge bridge
+against a party-mean baseline. It used 532 lawmaker anchors, 24 candidate
+evidence-coverage patterns, Ridge alpha 20, and state-held-out folds; candidate
+coverage patterns from the held-out state were excluded from each fold. The
+target export came from diagnostic fit
+`draws_ga119_1792038184878796000.npz` (SHA-256 prefix `91247045c4df`).
+
+Across 532 held-out lawmakers, Ridge MAE was 3.392 points versus 3.799 for
+party-only. On the more relevant linked-candidate check (11 people), Ridge MAE
+was 4.386 versus 4.326 for party-only. The candidate-like check therefore
+showed no improvement, despite a small gain on the much larger lawmaker set.
+The diagnostic fit's preview produced 13 unlinked statement estimates, 23
+exact linked-lawmakers, and 73 records below the shared-rubric evidence gate.
+
+This does not justify publishing additional Ridge point scores. The tested fit
+is diagnostic and has a different hash from the site's saved fit-2 scale; it
+does not replace the current fit-2 calibration. Keep the current 37 points, 17
+broad exploratory ranges, and 55 profiles without a comparable overall number
+until a candidate-like holdout shows a real gain. All candidate profiles and
+cited issue evidence remain available independently of the overall-score gate.
