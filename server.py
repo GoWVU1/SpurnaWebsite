@@ -100,7 +100,9 @@ class Handler(SimpleHTTPRequestHandler):
                         WHERE congress=119 AND load_status='complete'
                           AND (status<>'converged' OR
                                ((SELECT count(*) FROM mart.us_candidate_v4_calibrations c
-                                  WHERE c.fit_sha=f.fit_sha)=109
+                                  WHERE c.fit_sha=f.fit_sha)=
+                                (SELECT count(*) FROM mart.us_candidate_scorecard_2026
+                                  WHERE ballot_verified)
                                 AND (SELECT count(*) FROM mart.us_national_v4_senate_independent_scores i
                                      WHERE i.fit_sha=f.fit_sha)=138))
                         ORDER BY CASE WHEN status='converged' THEN 0 ELSE 1 END,
