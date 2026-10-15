@@ -56,8 +56,12 @@ their cards and profiles label the separate Senate refit as provisional.
 
 The current `spurna.org` site is served as static files. Its hosting needs an
 API process or proxy for `/api/candidates` before linking the new page in the
-public navigation. The separate `beta.spurna.org` app source is not in this
-repository, so this code does not modify that app.
+public navigation. The separate `beta.spurna.org` app source is in the private
+`GoWVU1/spurna-web` repository (a static Next.js export), not this repository.
+Its current `/election/` pages contain labeled fictional sample data. This
+local viewer does not modify or deploy that app. Candidate profiles need a
+separate integration there, with PostgreSQL remaining the source of truth and
+published candidate data generated for the site's static build.
 The landing-page Lawmakers and Candidates links appear automatically when
 `/api/health` responds successfully; a static-only deployment leaves them
 hidden. The local server was checked with 109 candidates, 553 lawmakers,
@@ -78,3 +82,12 @@ calibration. Seventeen additional major-party candidates have broad exploratory
 ranges; remaining candidates have no comparable number until evidence and
 calibration anchors are available. The issue-level agentic scores have not
 been calibrated to v4's 14 policy domains.
+
+An audit on 15 October 2026 found 37 candidate point scores, 17 exploratory
+major-party ranges, and 55 profiles without a comparable number among the 109
+verified candidates. Fifty of those 55 are minor-party or independent; 37 of
+those 50 have at least one cited issue stance. Party-only context was checked
+with state-held-out lawmakers (7.10-point mean absolute error on the site's
+±50 scale), but that describes a party distribution rather than an individual
+candidate. The current shared-rubric bridge fails independent Senate transfer
+checks for Sanders and King, so minor-party candidate numbers remain hidden.
