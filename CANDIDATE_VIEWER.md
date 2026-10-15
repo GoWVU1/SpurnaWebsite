@@ -60,7 +60,7 @@ public navigation. The separate `beta.spurna.org` app source is not in this
 repository, so this code does not modify that app.
 The landing-page Lawmakers and Candidates links appear automatically when
 `/api/health` responds successfully; a static-only deployment leaves them
-hidden. The local server was checked with 109 candidates, 551 lawmakers,
+hidden. The local server was checked with 109 candidates, 553 lawmakers,
 69 scores on a lawmaker detail page, and zero overall-score differences
 across the 23 candidates linked to a lawmaker.
 
@@ -71,8 +71,10 @@ insufficient evidence for a position. The local API returned all 109 profiles.
 Candidate issue scores are agentic evidence estimates. The overall position
 uses the national v4 site's −50 to +50 display scale. For linked lawmakers it
 is the site's published score; for Democratic and Republican candidates without
-a linked 119th-Congress lawmaker score it is a public-statement estimate calibrated on 23
-overlapping lawmakers and labeled as such. The estimate requires at least four
-cited Tier A/B issue positions. Other candidates have no comparable position
-until evidence and calibration anchors are available. The issue-level agentic
-scores have not been calibrated to v4's 14 policy domains.
+a linked 119th-Congress lawmaker score it is a public-statement estimate
+calibrated on 23 overlapping lawmakers and labeled as such. The point
+estimate requires at least four qualifying rhetoric signals under the current
+calibration. Seventeen additional major-party candidates have broad exploratory
+ranges; remaining candidates have no comparable number until evidence and
+calibration anchors are available. The issue-level agentic scores have not
+been calibrated to v4's 14 policy domains.
