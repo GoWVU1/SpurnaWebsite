@@ -29,12 +29,6 @@ const STANCE = {
   unknown: 'Not established',
 };
 
-const BUCKET = {
-  left: 'Left', center_left: 'Center left', center: 'Center',
-  center_right: 'Center right', right: 'Right',
-  insufficient_evidence: 'Insufficient evidence',
-};
-
 const cards = document.getElementById('cards');
 const count = document.getElementById('count');
 const error = document.getElementById('error');
@@ -62,12 +56,39 @@ function seat(candidate) {
 }
 
 function scoreText(candidate) {
-  if (candidate.overall_lr_score_approx === null) {
+  if (candidate.site_position_points === null || candidate.site_position_points === undefined) {
+    if (candidate.rough_band_low !== null && candidate.rough_band_low !== undefined) {
+      const signed = (value) => value > 0 ? `+${value}` : String(value);
+      return `${signed(candidate.rough_band_low)} to ${signed(candidate.rough_band_high)} / 50 · exploratory range`;
+    }
     return candidate.score_status === 'insufficient_evidence'
-      ? 'No position established' : 'Overall score unavailable';
+      ? 'No position established' : 'No site-scale position yet';
   }
-  const name = BUCKET[candidate.overall_lr_bucket] || candidate.overall_lr_bucket;
-  return `${name} · ${candidate.overall_lr_score_approx.toFixed(2)}`;
+  const points = candidate.site_position_points;
+  const value = `${points > 0 ? '+' : ''}${points}`;
+  const source = candidate.site_position_source === 'existing_v4_lawmaker_site_score'
+    ? 'v4 lawmaker position' : 'candidate estimate';
+  return `${value} / 50 · ${source}`;
+}
+
+function scoreMethodText(candidate) {
+  const provisional = candidate.fit_status === 'diagnostic'
+    ? 'This national fit is provisional. ' : '';
+  if (candidate.site_position_source === 'existing_v4_lawmaker_site_score') {
+    return `${provisional}This position comes directly from the linked lawmaker's national v4 fit.`;
+  }
+  if (candidate.site_position_source === 'candidate_public_statement_estimate') {
+    const gap = candidate.state_holdout_mae_points;
+    const validation = Number.isFinite(gap)
+      ? ` In the state-held-out comparison, the average gap was ${gap.toFixed(1)} points for this party.` : '';
+    return `${provisional}Estimated from cited public statements on the national site's −50 to +50 scale.${validation} This estimate does not use a 119th-Congress vote-fit score.`;
+  }
+  if (candidate.rough_band_low !== null && candidate.rough_band_low !== undefined) {
+    return `${provisional}Exploratory range from ${candidate.rough_evidence_issues} public-statement issue signal${candidate.rough_evidence_issues === 1 ? '' : 's'}. It is a broad comparison guide, not a calibrated confidence interval or a point score. The statement-only method had an average ${candidate.rough_validation_mae_points.toFixed(1)}-point error in 18 state-held-out linked-candidate checks.`;
+  }
+  return candidate.overall_lr_score_approx === null
+    ? 'No overall position is available until enough cited issue positions are found.'
+    : 'The original candidate score is available, but a comparable national-site position has not been validated for this candidate.';
 }
 
 function showCandidates() {
@@ -153,7 +174,13 @@ async function openCandidate(candidateId) {
     const summary = element('div', 'profile-summary');
     summary.append(element('strong', '', scoreText(candidate)));
     summary.append(element('p', 'muted', `${candidate.cited_issue_count} cited issue positions of ${candidate.issue_count} reviewed. ${STATUS[candidate.score_status] || ''}.`));
-    summary.append(element('p', 'muted', candidate.lr_method_note || 'No overall score is available until enough cited issue positions are found.'));
+    summary.append(element('p', 'muted', scoreMethodText(candidate)));
+    if (candidate.site_position_source === 'existing_v4_lawmaker_site_score'
+        && candidate.linked_member_index_code) {
+      const link = element('a', 'source-link', 'Open the linked lawmaker score');
+      link.href = `/lawmakers/?member=${encodeURIComponent(candidate.linked_member_index_code)}`;
+      summary.append(link);
+    }
     profileContent.append(summary);
     if (!issues.length) {
       profileContent.append(element('p', 'muted', 'Issue scoring has not completed for this candidate. Public statements will appear here when cited evidence is available.'));
@@ -184,6 +211,8 @@ fetch('/api/candidates')
       state.append(option);
     }
     showCandidates();
+    const linked = new URLSearchParams(location.search).get('candidate');
+    if (linked && candidates.some((candidate) => candidate.candidate_id === linked)) openCandidate(linked);
   })
   .catch(() => {
     count.textContent = 'Candidate directory unavailable';

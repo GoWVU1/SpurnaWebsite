@@ -108,3 +108,16 @@ if (demoForm) {
     }
   });
 }
+// Show database-backed directories only when the API is reachable.
+const candidateNav = document.getElementById('candidate-nav');
+const lawmakerNav = document.getElementById('lawmaker-nav');
+if (candidateNav || lawmakerNav) {
+  fetch('/api/health', { headers: { Accept: 'application/json' } })
+    .then((response) => {
+      if (response.ok) {
+        if (candidateNav) candidateNav.hidden = false;
+        if (lawmakerNav) lawmakerNav.hidden = false;
+      }
+    })
+    .catch(() => {});
+}
