@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'" />
+    <title>2026 Candidates · Spurna research preview</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/candidates/style.css" />
+    <script src="/candidates/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to candidates</a>
+    <header class="site-header">
+      <a class="wordmark" href="/">Spurna<span>.</span></a>
+      <nav aria-label="Main navigation">
+        <a href="/lawmakers/">Lawmakers</a>
+        <a href="/candidates/" aria-current="page">Candidates</a>
+        <a href="https://beta.spurna.org/methodology/">Methodology</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="intro">
+        <p class="eyebrow">2026 election · research preview</p>
+        <h1>Where candidates stand<span>.</span></h1>
+        <p class="lede">Positions draw on cited public statements, campaign pages, and congressional action where available. For candidates without a congressional record, voting and bill activity remain unknown.</p>
+        <p class="method-note">Current ballot coverage: California, Maryland, and Michigan.</p>
+        <p class="method-note">Looking for a sitting senator or representative? <a href="/lawmakers/">Search the combined lawmaker and candidate directory</a>.</p>
+        <p class="method-note">Comparable overall positions use the national lawmaker site’s −50 to +50 scale (left to right). Linked lawmakers keep their v4 position. Other candidates may have a calibrated public-statement estimate or a broad exploratory range; some have no comparable number yet. Each source is labeled.</p>
+      </section>
+
+      <section class="directory" aria-label="Candidate directory">
+        <div class="directory-head">
+          <div>
+            <p class="eyebrow">Verified ballot roster</p>
+            <h2>Candidates</h2>
+            <p id="count" class="muted" aria-live="polite">Loading candidates…</p>
+          </div>
+          <div class="filters">
+            <label>
+              <span>Find a candidate</span>
+              <input id="search" type="search" placeholder="Name, state, district" autocomplete="off" />
+            </label>
+            <label>
+              <span>State</span>
+              <select id="state"><option value="">All states</option></select>
+            </label>
+            <label>
+              <span>Score status</span>
+              <select id="status">
+                <option value="">All</option>
+                <option value="scored">Scored</option>
+                <option value="insufficient_evidence">No position established</option>
+                <option value="ready_to_score">Evidence ready</option>
+                <option value="awaiting_evidence">Awaiting evidence</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="cards" class="cards" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <dialog id="profile" aria-labelledby="profile-name">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Candidate record</p>
+          <h2 id="profile-name"></h2>
+          <p id="profile-seat" class="muted"></p>
+        </div>
+        <button id="close-profile" type="button" class="close-button" aria-label="Close candidate profile">×</button>
+      </div>
+      <div id="profile-content"></div>
+    </dialog>
+    <footer>Spurna · See clearly. Decide for yourself.</footer>
+  </body>
+</html>

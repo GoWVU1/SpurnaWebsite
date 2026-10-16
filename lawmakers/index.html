@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'" />
+    <title>National lawmakers · Spurna research preview</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/candidates/style.css" />
+    <script src="/lawmakers/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to lawmakers</a>
+    <header class="site-header">
+      <a class="wordmark" href="/">Spurna<span>.</span></a>
+      <nav aria-label="Main navigation">
+        <a href="/lawmakers/" aria-current="page">Lawmakers</a>
+        <a href="/candidates/">Candidates</a>
+        <a href="https://beta.spurna.org/methodology/">Methodology</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="intro">
+        <p class="eyebrow">119th Congress · research preview</p>
+        <h1>Compare people and positions<span>.</span></h1>
+        <p class="lede">Search lawmakers and ballot-verified candidates together. Where a comparable overall position is available, the scale runs from −50 on the left to +50 on the right.</p>
+        <p id="fit-note" class="method-note">Loading the selected national fit…</p>
+      </section>
+      <section class="directory" aria-label="Lawmaker directory">
+        <div class="directory-head">
+          <div>
+            <p class="eyebrow">National score directory</p>
+            <h2>Lawmakers and candidates</h2>
+            <p id="count" class="muted" aria-live="polite">Loading lawmakers…</p>
+          </div>
+          <div class="filters">
+            <label><span>Find a person</span><input id="search" type="search" placeholder="Name" autocomplete="off" /></label>
+            <label><span>Role</span><select id="role"><option value="">Both roles</option><option value="lawmaker">Lawmaker</option><option value="candidate">Candidate</option></select></label>
+            <label><span>Chamber</span><select id="chamber"><option value="">Both chambers</option><option value="H">House</option><option value="S">Senate</option></select></label>
+            <label><span>Party</span><select id="party"><option value="">All parties</option><option value="D">Democratic</option><option value="R">Republican</option><option value="I">Independent</option></select></label>
+          </div>
+        </div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="cards" class="cards" aria-live="polite"></div>
+      </section>
+    </main>
+    <dialog id="profile" aria-labelledby="profile-name">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">National v4 score</p>
+          <h2 id="profile-name"></h2>
+          <p id="profile-seat" class="muted"></p>
+        </div>
+        <button id="close-profile" type="button" class="close-button" aria-label="Close lawmaker profile">×</button>
+      </div>
+      <div id="profile-content"></div>
+    </dialog>
+    <footer>Spurna · See clearly. Decide for yourself.</footer>
+  </body>
+</html>
