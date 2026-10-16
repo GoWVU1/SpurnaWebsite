@@ -245,7 +245,7 @@ class Handler(SimpleHTTPRequestHandler):
                                       specificity, evidence_sufficiency,
                                       rhetoric_stance, action_stance,
                                       statement_action_reconciliation,
-                                      evidence_doc_ids, claims, reasoning,
+                                      evidence_doc_ids, claims,
                                       model_version, computed_at
                                  FROM mart.us_candidate_issue_score_2026
                                 WHERE candidate_id=%s ORDER BY issue_code""",

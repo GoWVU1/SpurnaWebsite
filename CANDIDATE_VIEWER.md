@@ -54,14 +54,22 @@ lawmakers and links to candidate profiles. Independent senators are stored in
 `mart.us_national_v4_senate_independent_scores`, separately from the joint fit;
 their cards and profiles label the separate Senate refit as provisional.
 
-The current `spurna.org` site is served as static files. Its hosting needs an
-API process or proxy for `/api/candidates` before linking the new page in the
-public navigation. The separate `beta.spurna.org` app source is in the private
+The viewer includes a Cloudflare Worker API in `src/index.js` and keeps the
+candidate and lawmaker records in PostgreSQL. `npm run build` copies only
+public site assets into `dist/`; the database API runs at the same origin and
+does not bundle score data. Deploy it as a Cloudflare Worker with static assets
+and a Hyperdrive binding named `CANDIDATE_DB`. The binding must use a PostgreSQL
+login with `SELECT` access only to the tables listed above; each request also
+opens an explicit `READ ONLY` transaction. Never use the application's
+write-capable `SpurnaDB1` credential for this public endpoint.
+
+The separate `beta.spurna.org` app source is in the private
 `GoWVU1/spurna-web` repository (a static Next.js export), not this repository.
-Its current `/election/` pages contain labeled fictional sample data. This
-local viewer does not modify or deploy that app. Candidate profiles need a
-separate integration there, with PostgreSQL remaining the source of truth and
-published candidate data generated for the site's static build.
+Its current `/election/` pages contain labeled fictional sample data. The
+local viewer is the database-backed site implementation and does not modify
+that app. Candidate profiles need a separate integration there if that app is
+the eventual production site.
+
 The landing-page Lawmakers and Candidates links appear automatically when
 `/api/health` responds successfully; a static-only deployment leaves them
 hidden. The local server was checked with 109 candidates, 553 lawmakers,
