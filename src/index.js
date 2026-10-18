@@ -36,18 +36,66 @@ async function selectedNationalFit(client) {
   const result = await client.query(`SELECT fit_sha, status, archive_filename
       FROM mart.us_national_v4_fits f
      WHERE congress=119 AND load_status='complete'
-       AND (status<>'converged' OR
-            ((SELECT count(*) FROM mart.us_candidate_v4_calibrations c
-               WHERE c.fit_sha=f.fit_sha)=
-             (SELECT count(*) FROM mart.us_candidate_scorecard_2026
-               WHERE ballot_verified)
-             AND (SELECT count(*) FROM mart.us_national_v4_senate_independent_scores i
-                  WHERE i.fit_sha=f.fit_sha)=138))
-     ORDER BY CASE WHEN status='converged' THEN 0 ELSE 1 END,
-              CASE WHEN status='converged' THEN imported_at END DESC,
-              CASE WHEN status<>'converged' THEN imported_at END ASC
+       AND (SELECT count(*) FROM mart.us_candidate_v4_calibrations c
+              WHERE c.fit_sha=f.fit_sha) >=
+           (SELECT count(*) FROM mart.us_candidate_scorecard_2026
+              WHERE ballot_verified)
+     ORDER BY imported_at DESC
      LIMIT 1`);
-  return result.rows[0] ?? null;
+  const fit = result.rows[0];
+  if (!fit) return null;
+  const supplement = await client.query(`SELECT f.fit_sha
+      FROM mart.us_national_v4_fits f
+     WHERE f.congress=119 AND f.load_status='complete'
+       AND EXISTS (SELECT 1 FROM mart.us_national_v4_senate_independent_scores i
+                    WHERE i.fit_sha=f.fit_sha)
+       AND EXISTS (SELECT 1 FROM mart.us_candidate_v4_statement_bridge_preview b
+                    WHERE b.fit_sha=f.fit_sha)
+     ORDER BY f.imported_at DESC LIMIT 1`);
+  fit.supplemental_sha = supplement.rows[0]?.fit_sha ?? fit.fit_sha;
+  fit.slope = 1;
+  fit.intercept = 0;
+  if (fit.supplemental_sha !== fit.fit_sha) {
+    const mapping = await client.query(`SELECT
+        regr_slope(n.display_points::numeric, o.display_points::numeric) AS slope,
+        regr_intercept(n.display_points::numeric, o.display_points::numeric) AS intercept
+      FROM mart.us_national_v4_member_scores n
+      JOIN mart.us_national_v4_member_scores o
+        ON o.member_id=n.member_id AND o.scope_id=n.scope_id
+      WHERE n.fit_sha=$1 AND o.fit_sha=$2 AND n.scope_id='OVERALL_BALANCED'`,
+    [fit.fit_sha, fit.supplemental_sha]);
+    if (mapping.rows[0]?.slope == null || mapping.rows[0]?.intercept == null) {
+      fit.supplemental_sha = fit.fit_sha;
+    } else {
+      fit.slope = Number(mapping.rows[0].slope);
+      fit.intercept = Number(mapping.rows[0].intercept);
+    }
+  }
+  return fit;
+}
+
+function mapSupplementalPoints(rows, fit, fields = ["display_points"]) {
+  if (fit.supplemental_sha === fit.fit_sha) return rows;
+  for (const row of rows) {
+    for (const field of fields) {
+      if (row[field] != null) {
+        row[field] = Math.max(-50, Math.min(50, Math.round(Number(row[field]) * fit.slope + fit.intercept)));
+      }
+    }
+  }
+  return rows;
+}
+
+function mapCandidateRanges(rows, fit) {
+  mapSupplementalPoints(rows, fit, ["rough_band_low", "rough_band_high"]);
+  if (fit.supplemental_sha !== fit.fit_sha) {
+    for (const row of rows) {
+      if (row.rough_validation_mae_points != null) {
+        row.rough_validation_mae_points = Math.round(Number(row.rough_validation_mae_points) * Math.abs(fit.slope) * 10) / 10;
+      }
+    }
+  }
+  return rows;
 }
 
 async function lawmakers(client) {
@@ -64,8 +112,8 @@ async function lawmakers(client) {
       'senate_independent_refit' AS score_source
     FROM mart.us_national_v4_senate_independent_scores
     WHERE fit_sha=$1 AND scope_id='OVERALL_BALANCED'
-    ORDER BY member_name`, [fit.fit_sha]);
-  const rows = [...joint.rows, ...senate.rows]
+    ORDER BY member_name`, [fit.supplemental_sha]);
+  const rows = [...joint.rows, ...mapSupplementalPoints(senate.rows, fit)]
     .sort((a, b) => a.chamber.localeCompare(b.chamber) || a.member_name.localeCompare(b.member_name));
   return json({ lawmakers: rows, count: rows.length, fit_sha: fit.fit_sha, fit_status: fit.status });
 }
@@ -89,7 +137,8 @@ async function lawmaker(client, memberId) {
       FROM mart.us_national_v4_senate_independent_scores
       WHERE fit_sha=$1 AND member_id=$2
       ORDER BY CASE scope_type WHEN 'overall' THEN 0 WHEN 'domain' THEN 1 ELSE 2 END,scope_id`,
-    [fit.fit_sha, memberId]);
+    [fit.supplemental_sha, memberId]);
+    mapSupplementalPoints(result.rows, fit);
   }
   if (!result.rows.length) return json({ error: "Lawmaker not found." }, 404);
   return json({ lawmaker: result.rows[0], scores: result.rows, fit_sha: fit.fit_sha, fit_status: fit.status });
@@ -111,8 +160,8 @@ async function candidates(client) {
     LEFT JOIN mart.us_candidate_v4_statement_bridge_preview b
       ON b.candidate_id=c.candidate_id AND b.fit_sha=$3
     ORDER BY c.state,c.office,c.district,c.display_name`,
-  [fit?.status ?? "unavailable", fit?.fit_sha ?? "", fit?.fit_sha ?? ""]);
-  return json({ candidates: result.rows, count: result.rowCount });
+  [fit?.status ?? "unavailable", fit?.fit_sha ?? "", fit?.supplemental_sha ?? ""]);
+  return json({ candidates: fit ? mapCandidateRanges(result.rows, fit) : result.rows, count: result.rowCount });
 }
 
 async function candidate(client, candidateId) {
@@ -133,8 +182,9 @@ async function candidate(client, candidateId) {
     LEFT JOIN mart.us_candidate_v4_statement_bridge_preview b
       ON b.candidate_id=c.candidate_id AND b.fit_sha=$3
     WHERE c.candidate_id=$4`,
-  [fit?.status ?? "unavailable", fit?.fit_sha ?? "", fit?.fit_sha ?? "", candidateId]);
+  [fit?.status ?? "unavailable", fit?.fit_sha ?? "", fit?.supplemental_sha ?? "", candidateId]);
   if (!profile.rows.length) return json({ error: "Candidate not found." }, 404);
+  if (fit) mapCandidateRanges(profile.rows, fit);
 
   const issueResult = await client.query(`SELECT issue_code,position_type,stance,
       continuous_score,confidence,emphasis,specificity,evidence_sufficiency,

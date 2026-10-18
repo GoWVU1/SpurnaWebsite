@@ -94,22 +94,55 @@ class Handler(SimpleHTTPRequestHandler):
 
     @staticmethod
     def selected_national_fit(cur):
-        """Use the newest converged fit, or the original site fit as fallback."""
+        """Use the latest complete fit and locate any older supplemental scores."""
         cur.execute("""SELECT fit_sha,status,archive_filename
                          FROM mart.us_national_v4_fits f
                         WHERE congress=119 AND load_status='complete'
-                          AND (status<>'converged' OR
-                               ((SELECT count(*) FROM mart.us_candidate_v4_calibrations c
-                                  WHERE c.fit_sha=f.fit_sha)=
-                                (SELECT count(*) FROM mart.us_candidate_scorecard_2026
-                                  WHERE ballot_verified)
-                                AND (SELECT count(*) FROM mart.us_national_v4_senate_independent_scores i
-                                     WHERE i.fit_sha=f.fit_sha)=138))
-                        ORDER BY CASE WHEN status='converged' THEN 0 ELSE 1 END,
-                                 CASE WHEN status='converged' THEN imported_at END DESC,
-                                 CASE WHEN status<>'converged' THEN imported_at END ASC
+                          AND (SELECT count(*) FROM mart.us_candidate_v4_calibrations c
+                                 WHERE c.fit_sha=f.fit_sha) >=
+                              (SELECT count(*) FROM mart.us_candidate_scorecard_2026
+                                 WHERE ballot_verified)
+                        ORDER BY imported_at DESC
                         LIMIT 1""")
-        return cur.fetchone()
+        fit = cur.fetchone()
+        if fit is None:
+            return None
+        cur.execute("""SELECT f.fit_sha
+                         FROM mart.us_national_v4_fits f
+                        WHERE f.congress=119 AND f.load_status='complete'
+                          AND EXISTS (SELECT 1 FROM mart.us_national_v4_senate_independent_scores i
+                                       WHERE i.fit_sha=f.fit_sha)
+                          AND EXISTS (SELECT 1 FROM mart.us_candidate_v4_statement_bridge_preview b
+                                       WHERE b.fit_sha=f.fit_sha)
+                        ORDER BY f.imported_at DESC LIMIT 1""")
+        supplemental = cur.fetchone()
+        supplemental_sha = supplemental[0] if supplemental else fit[0]
+        slope, intercept = 1.0, 0.0
+        if supplemental_sha != fit[0]:
+            cur.execute("""SELECT regr_slope(n.display_points::numeric, o.display_points::numeric),
+                                  regr_intercept(n.display_points::numeric, o.display_points::numeric)
+                             FROM mart.us_national_v4_member_scores n
+                             JOIN mart.us_national_v4_member_scores o
+                               ON o.member_id=n.member_id AND o.scope_id=n.scope_id
+                            WHERE n.fit_sha=%s AND o.fit_sha=%s
+                              AND n.scope_id='OVERALL_BALANCED'""",
+                        (fit[0], supplemental_sha))
+            mapping = cur.fetchone()
+            if mapping[0] is None or mapping[1] is None:
+                supplemental_sha = fit[0]
+            else:
+                slope, intercept = map(float, mapping)
+        return (*fit, supplemental_sha, slope, intercept)
+
+    @staticmethod
+    def map_supplemental_points(rows, fit, fields=("display_points",)):
+        if fit[3] == fit[0]:
+            return rows
+        for row in rows:
+            for field in fields:
+                if row.get(field) is not None:
+                    row[field] = max(-50, min(50, round(float(row[field]) * fit[4] + fit[5])))
+        return rows
 
     def lawmakers(self):
         try:
@@ -129,8 +162,8 @@ class Handler(SimpleHTTPRequestHandler):
                                       'senate_independent_refit' AS score_source
                                  FROM mart.us_national_v4_senate_independent_scores
                                 WHERE fit_sha=%s AND scope_id='OVERALL_BALANCED'
-                                ORDER BY member_name""", (fit[0],))
-                rows.extend(records(cur))
+                                ORDER BY member_name""", (fit[3],))
+                rows.extend(self.map_supplemental_points(records(cur), fit))
                 rows.sort(key=lambda row: (row["chamber"], row["member_name"]))
             self.send_json({"lawmakers": rows, "count": len(rows),
                             "fit_sha": fit[0], "fit_status": fit[1]})
@@ -166,8 +199,8 @@ class Handler(SimpleHTTPRequestHandler):
                                     WHERE fit_sha=%s AND member_id=%s
                                     ORDER BY CASE scope_type WHEN 'overall' THEN 0
                                              WHEN 'domain' THEN 1 ELSE 2 END,scope_id""",
-                                (fit[0], member_id))
-                    rows = records(cur)
+                                (fit[3], member_id))
+                    rows = self.map_supplemental_points(records(cur), fit)
             if not rows:
                 return self.send_json({"error": "Lawmaker not found."}, 404)
             self.send_json({"lawmaker": rows[0], "scores": rows,
@@ -201,8 +234,15 @@ class Handler(SimpleHTTPRequestHandler):
                                    ON b.candidate_id=c.candidate_id AND b.fit_sha=%s
                                 ORDER BY c.state, c.office, c.district, c.display_name""",
                             (fit[1] if fit else "unavailable",
-                             fit[0] if fit else "", fit[0] if fit else ""))
+                             fit[0] if fit else "", fit[3] if fit else ""))
                 rows = records(cur)
+                if fit:
+                    self.map_supplemental_points(rows, fit, ("rough_band_low", "rough_band_high"))
+                    if fit[3] != fit[0]:
+                        for row in rows:
+                            if row["rough_validation_mae_points"] is not None:
+                                row["rough_validation_mae_points"] = round(
+                                    float(row["rough_validation_mae_points"]) * abs(fit[4]), 1)
             self.send_json({"candidates": rows, "count": len(rows)})
         except (psycopg2.Error, KeyError) as exc:
             self.log_error("Candidate list unavailable: %s", type(exc).__name__)
@@ -236,8 +276,15 @@ class Handler(SimpleHTTPRequestHandler):
                                    ON b.candidate_id=c.candidate_id AND b.fit_sha=%s
                                 WHERE c.candidate_id=%s""",
                             (fit[1] if fit else "unavailable", fit[0] if fit else "",
-                             fit[0] if fit else "", candidate_id))
+                             fit[3] if fit else "", candidate_id))
                 profile_rows = records(cur)
+                if fit:
+                    self.map_supplemental_points(profile_rows, fit, ("rough_band_low", "rough_band_high"))
+                    if fit[3] != fit[0]:
+                        for row in profile_rows:
+                            if row["rough_validation_mae_points"] is not None:
+                                row["rough_validation_mae_points"] = round(
+                                    float(row["rough_validation_mae_points"]) * abs(fit[4]), 1)
                 if not profile_rows:
                     return self.send_json({"error": "Candidate not found."}, 404)
                 cur.execute("""SELECT issue_code, position_type, stance,

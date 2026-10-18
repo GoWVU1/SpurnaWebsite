@@ -11,7 +11,7 @@ The API in `server.py` serves:
 - `GET /api/health` — checks that the database-backed API is reachable
 - `GET /api/candidates` — roster, score status, and site-scale overall position
 - `GET /api/candidates/<candidate_id>` — issue positions and source links
-- `GET /api/lawmakers` — 551 joint-fit members plus Bernie Sanders and Angus King from the archived Senate-only refit when the original fit is selected
+- `GET /api/lawmakers` — 551 joint-fit members plus Bernie Sanders and Angus King from the archived Senate-only refit, mapped approximately onto the selected fit's display scale
 - `GET /api/lawmakers/<member_id>` — overall, 14 policy-area, and 54 detailed issue positions
 
 It reads `mart.us_candidate_scorecard_2026`,
@@ -21,10 +21,13 @@ fit-keyed `mart.us_candidate_v4_calibrations`, and
 scoring code and view definitions live
 in the PoliticsApp repository under `analytics/`.
 
-The API selects the most recent fully loaded, converged national fit with a
-complete candidate calibration and independent Senate rows. Until one exists,
-it serves the versioned fit-2 diagnostic calibration already on the site. The
-lawmaker and candidate endpoints select the same fit. The API includes
+The API selects the newest fully loaded national fit with a complete candidate
+calibration, including the October 2026 tweet refresh. The lawmaker and
+candidate point endpoints select the same fit. When the newest fit does not
+include the independent Senate refit or the exploratory candidate ranges, the
+API takes them from the latest complete fit containing those supplemental rows
+and maps their display points to the selected fit using shared lawmakers'
+overall scores. The mapping is approximate and is labeled in the viewer. The API includes
 `fit_status` so a diagnostic score can be identified explicitly. Each
 calibration is also available by fit hash in
 `mart.us_candidate_v4_calibrations`; rows without enough evidence keep a null
@@ -33,12 +36,12 @@ overall position.
 For 17 more Democratic or Republican candidates with at least one shared-rubric
 policy-statement issue and no calibrated point, the local viewer displays an
 explicitly exploratory **range** from
-`mart.us_candidate_v4_statement_bridge_preview`. It is tied to the original
-diagnostic fit and never overrides a linked lawmaker score or calibrated
-candidate point. The bridge trained on 534 lawmakers; its 18 state-held-out
-linked-candidate checks had 6.11-point mean absolute error and misses up to
-16.56 points. The displayed ±18/20/22-point spans are deliberately broad
-research guides, not calibrated confidence intervals. Candidates without
+`mart.us_candidate_v4_statement_bridge_preview`. It never overrides a linked
+lawmaker score or calibrated candidate point. The bridge trained on 534
+lawmakers; its 18 state-held-out linked-candidate checks had 6.11-point mean
+absolute error and misses up to 16.56 points on the original display scale.
+The displayed ranges are deliberately broad research guides, not calibrated
+confidence intervals. Candidates without
 usable policy statements or a suitable major-party calibration retain no
 comparable number; their cited issue positions remain visible.
 

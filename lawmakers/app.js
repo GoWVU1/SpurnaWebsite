@@ -125,7 +125,7 @@ async function openLawmaker(memberId) {
     const summary = element('div', 'profile-summary');
     summary.append(element('strong', '', points(lawmaker.display_points)));
     summary.append(element('p', 'muted', lawmaker.score_source === 'senate_independent_refit'
-      ? 'Provisional Senate-only refit mapped to the archived national scale. This is a different fit from the other lawmakers shown here.'
+      ? 'Provisional Senate-only refit mapped approximately to the current national display scale. This is a different fit from the other lawmakers shown here.'
       : fitStatus === 'converged'
         ? 'National v4 fit. Policy area and detailed issue scores appear below.'
         : 'Provisional national v4 fit. Sampler diagnostics have not passed the release threshold.'));
@@ -151,7 +151,7 @@ fetch('/api/lawmakers')
     lawmakers = data.lawmakers;
     fitNote.textContent = data.fit_status === 'converged'
       ? 'This view uses the newest completed national v4 fit that passed sampler diagnostics. Candidate overall estimates use the same fit.'
-      : 'This view uses the original provisional national v4 fit. Bernie Sanders and Angus King use a separate Senate refit mapped to its scale. The refreshed fit will appear here only if it passes the release threshold.';
+      : 'This view uses the latest completed national v4 fit with the refreshed tweets. Its sampler diagnostics are provisional. Bernie Sanders and Angus King use an earlier Senate refit approximately mapped to the current display scale.';
     showLawmakers();
     const linked = new URLSearchParams(location.search).get('member');
     if (linked && lawmakers.some((person) => person.member_id === linked)) openLawmaker(linked);

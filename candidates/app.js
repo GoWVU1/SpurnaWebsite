@@ -84,7 +84,7 @@ function scoreMethodText(candidate) {
     return `${provisional}Estimated from cited public statements on the national site's −50 to +50 scale.${validation} This estimate does not use a 119th-Congress vote-fit score.`;
   }
   if (candidate.rough_band_low !== null && candidate.rough_band_low !== undefined) {
-    return `${provisional}Exploratory range from ${candidate.rough_evidence_issues} public-statement issue signal${candidate.rough_evidence_issues === 1 ? '' : 's'} on a separate common rubric. That count can differ from the cited issue cards below. This is a broad comparison guide, not a calibrated confidence interval or a point score. The statement-only method had an average ${candidate.rough_validation_mae_points.toFixed(1)}-point error in 18 state-held-out linked-candidate checks.`;
+    return `${provisional}Exploratory range from ${candidate.rough_evidence_issues} public-statement issue signal${candidate.rough_evidence_issues === 1 ? '' : 's'} on a separate common rubric, approximately mapped to the latest national display scale. That count can differ from the cited issue cards below. This is a broad comparison guide, not a calibrated confidence interval or a point score. The statement-only method had an average ${candidate.rough_validation_mae_points.toFixed(1)}-point error after mapping in 18 state-held-out linked-candidate checks.`;
   }
   return candidate.overall_lr_score_approx === null
     ? 'No overall position is available until enough cited issue positions are found.'
