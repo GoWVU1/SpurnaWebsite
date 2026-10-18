@@ -50,12 +50,13 @@ function policyName(code) {
 function showLawmakers() {
   const query = search.value.trim().toLowerCase();
   const visibleLawmakers = lawmakers.filter((person) =>
-    role.value !== 'candidate'
+    !['candidate', 'non-lawmaker-candidate'].includes(role.value)
     && (!chamber.value || person.chamber === chamber.value)
     && (!party.value || person.party === party.value)
     && (!query || `${displayName(person)} ${person.member_name}`.toLowerCase().includes(query)));
   const visibleCandidates = candidates.filter((person) =>
     role.value !== 'lawmaker'
+    && (role.value !== 'non-lawmaker-candidate' || !person.linked_member_index_code)
     && (!chamber.value || person.office === chamber.value)
     && (!party.value || person.party === party.value)
     && (!query || `${person.display_name} ${person.state}`.toLowerCase().includes(query)));

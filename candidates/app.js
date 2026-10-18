@@ -34,6 +34,7 @@ const count = document.getElementById('count');
 const error = document.getElementById('error');
 const search = document.getElementById('search');
 const state = document.getElementById('state');
+const candidateType = document.getElementById('candidate-type');
 const status = document.getElementById('status');
 const dialog = document.getElementById('profile');
 const closeProfile = document.getElementById('close-profile');
@@ -104,6 +105,8 @@ function showCandidates() {
   const query = search.value.trim().toLowerCase();
   const visible = candidates.filter((candidate) => {
     if (state.value && candidate.state !== state.value) return false;
+    if (candidateType.value === 'not-lawmaker' && candidate.linked_member_index_code) return false;
+    if (candidateType.value === 'lawmaker' && !candidate.linked_member_index_code) return false;
     if (status.value && candidate.score_status !== status.value) return false;
     return !query || `${candidate.display_name} ${candidate.state} ${candidate.district || ''}`.toLowerCase().includes(query);
   });
@@ -207,7 +210,7 @@ async function openCandidate(candidateId) {
 
 closeProfile.addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-for (const input of [search, state, status]) input.addEventListener('input', showCandidates);
+for (const input of [search, state, candidateType, status]) input.addEventListener('input', showCandidates);
 
 fetch('/api/candidates')
   .then((response) => { if (!response.ok) throw new Error('Candidate API unavailable'); return response.json(); })
