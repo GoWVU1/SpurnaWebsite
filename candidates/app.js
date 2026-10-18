@@ -67,7 +67,9 @@ function scoreText(candidate) {
   const points = candidate.site_position_points;
   const value = `${points > 0 ? '+' : ''}${points}`;
   const source = candidate.site_position_source === 'existing_v4_lawmaker_site_score'
-    ? 'v4 lawmaker position' : 'candidate estimate';
+    ? 'v4 lawmaker position'
+    : candidate.site_position_source === 'candidate_issue_based_estimate'
+      ? 'issue-based estimate · provisional' : 'candidate estimate';
   return `${value} / 50 · ${source}`;
 }
 
@@ -82,6 +84,13 @@ function scoreMethodText(candidate) {
     const validation = Number.isFinite(gap)
       ? ` In the state-held-out comparison, the average gap was ${gap.toFixed(1)} points for this party.` : '';
     return `${provisional}Estimated from cited public statements on the national site's −50 to +50 scale.${validation} This estimate does not use a 119th-Congress vote-fit score.`;
+  }
+  if (candidate.site_position_source === 'candidate_issue_based_estimate') {
+    const sparse = candidate.cited_issue_count <= 2
+      ? ' Only a few issues have established positions, so this number is especially uncertain.' : '';
+    const range = candidate.rough_band_low !== null && candidate.rough_band_low !== undefined
+      ? ` A separate statement-based method gave an exploratory range of ${candidate.rough_band_low} to ${candidate.rough_band_high} on this scale.` : '';
+    return `${provisional}Provisional overall estimate from the candidate's cited issue positions, weighted by evidence confidence and emphasis, then mapped to the national v4 lawmaker scale using 23 candidates who are also lawmakers.${sparse}${range} The overlap check does not directly validate sparse or third-party candidates.`;
   }
   if (candidate.rough_band_low !== null && candidate.rough_band_low !== undefined) {
     return `${provisional}Exploratory range from ${candidate.rough_evidence_issues} public-statement issue signal${candidate.rough_evidence_issues === 1 ? '' : 's'} on a separate common rubric, approximately mapped to the latest national display scale. That count can differ from the cited issue cards below. This is a broad comparison guide, not a calibrated confidence interval or a point score. The statement-only method had an average ${candidate.rough_validation_mae_points.toFixed(1)}-point error after mapping in 18 state-held-out linked-candidate checks.`;

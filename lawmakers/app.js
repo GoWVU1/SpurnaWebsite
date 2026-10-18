@@ -93,7 +93,10 @@ function showLawmakers() {
       : hasRange ? `${signed(person.rough_band_low)} to ${signed(person.rough_band_high)} / 50`
         : 'No comparable position yet');
     score.append(element('small', '', hasPosition
-      ? exact ? 'Linked lawmaker position' : 'Public-statement estimate · provisional'
+      ? exact ? 'Linked lawmaker position'
+        : person.site_position_source === 'candidate_issue_based_estimate'
+          ? 'Issue-based estimate · provisional'
+          : 'Public-statement estimate · provisional'
       : hasRange ? 'Exploratory statement range · provisional'
         : `${person.cited_issue_count} cited issue positions`));
     card.append(score);
