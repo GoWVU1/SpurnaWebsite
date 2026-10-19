@@ -1,7 +1,8 @@
 import { Client } from "pg";
 const CANDIDATE_ID = /^[0-9a-f]{20}$/;
 const MEMBER_ID = /^[A-Z][0-9]{6}$/;
-const BILL_ID = /^(\d{3}):(HR|S|HRES|SRES|HJRES|SJRES)(\d+)$/i;
+const BILL_ID = /^(\d{3}):(HCONRES|SCONRES|HJRES|SJRES|HRES|SRES|HR|S)(\d+)$/i;
+const TWEET_ID = /^[0-9]{15,20}$/;
 
 function json(value, status = 200) {
   return Response.json(value, {
@@ -24,12 +25,24 @@ function officialBillSource(documentId) {
     SRES: "senate-resolution",
     HJRES: "house-joint-resolution",
     SJRES: "senate-joint-resolution",
+    HCONRES: "house-concurrent-resolution",
+    SCONRES: "senate-concurrent-resolution",
   }[kind.toUpperCase()];
   return {
     document_id: documentId,
     title: `${congress}th Congress · ${kind.toUpperCase()} ${number}`,
     url: `https://www.congress.gov/bill/${congress}th-congress/${billType}/${number}`,
   };
+}
+
+function referencedSource(documentId) {
+  const bill = officialBillSource(documentId);
+  if (bill) return bill;
+  if (TWEET_ID.test(documentId)) {
+    return { document_id: documentId, title: "View cited X post",
+      url: `https://x.com/i/web/status/${documentId}` };
+  }
+  return null;
 }
 
 async function selectedNationalFit(client) {
@@ -202,7 +215,7 @@ async function candidate(client, candidateId) {
     for (const row of docs.rows) evidence[row.document_id] = row;
     for (const documentId of evidenceIds) {
       if (!evidence[documentId]) {
-        const source = officialBillSource(documentId);
+        const source = referencedSource(documentId);
         if (source) evidence[documentId] = source;
       }
     }

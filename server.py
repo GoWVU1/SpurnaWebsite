@@ -22,7 +22,8 @@ import psycopg2
 ROOT = Path(__file__).resolve().parent
 CANDIDATE_ID = re.compile(r"^[0-9a-f]{20}$")
 MEMBER_ID = re.compile(r"^[A-Z][0-9]{6}$")
-BILL_ID = re.compile(r"^(\d{3}):(HR|S|HRES|SRES|HJRES|SJRES)(\d+)$", re.I)
+BILL_ID = re.compile(r"^(\d{3}):(HCONRES|SCONRES|HJRES|SJRES|HRES|SRES|HR|S)(\d+)$", re.I)
+TWEET_ID = re.compile(r"^[0-9]{15,20}$")
 PUBLIC_EXTENSIONS = {".html", ".css", ".js", ".svg", ".jpg", ".jpeg",
                      ".png", ".ico", ".webp", ".woff2", ".txt", ".xml"}
 
@@ -36,10 +37,22 @@ def official_bill_source(document_id):
         "HR": "house-bill", "S": "senate-bill",
         "HRES": "house-resolution", "SRES": "senate-resolution",
         "HJRES": "house-joint-resolution", "SJRES": "senate-joint-resolution",
+        "HCONRES": "house-concurrent-resolution",
+        "SCONRES": "senate-concurrent-resolution",
     }[kind.upper()]
     return {"document_id": document_id,
             "title": f"{congress}th Congress · {kind.upper()} {number}",
             "url": f"https://www.congress.gov/bill/{congress}th-congress/{bill_type}/{number}"}
+
+
+def referenced_source(document_id):
+    bill = official_bill_source(document_id)
+    if bill:
+        return bill
+    if TWEET_ID.fullmatch(document_id):
+        return {"document_id": document_id, "title": "View cited X post",
+                "url": f"https://x.com/i/web/status/{document_id}"}
+    return None
 
 
 def connection():
@@ -309,7 +322,7 @@ class Handler(SimpleHTTPRequestHandler):
                     evidence = {row["document_id"]: row for row in records(cur)}
                     for document_id in evidence_ids:
                         if document_id not in evidence:
-                            source = official_bill_source(document_id)
+                            source = referenced_source(document_id)
                             if source:
                                 evidence[document_id] = source
             self.send_json({"candidate": profile_rows[0], "issues": issues,

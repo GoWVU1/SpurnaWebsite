@@ -33,21 +33,20 @@ calibration is also available by fit hash in
 `mart.us_candidate_v4_calibrations`; rows without enough evidence keep a null
 overall position.
 
-For 17 more Democratic or Republican candidates with at least one shared-rubric
-policy-statement issue and no calibrated point, the local viewer displays an
-explicitly exploratory **range** from
-`mart.us_candidate_v4_statement_bridge_preview`. It never overrides a linked
-lawmaker score or calibrated candidate point. The bridge trained on 534
-lawmakers; its 18 state-held-out linked-candidate checks had 6.11-point mean
-absolute error and misses up to 16.56 points on the original display scale.
-The displayed ranges are deliberately broad research guides, not calibrated
-confidence intervals. Candidates without
-usable policy statements or a suitable major-party calibration retain no
-comparable number; their cited issue positions remain visible.
+As of 19 October 2026, all 109 ballot-verified candidates have issue cells and
+93 have an overall position on the site's −50 to +50 display scale: 23 inherit
+their linked lawmaker's exact v4 score, 14 have calibrated public-statement
+estimates, and 56 have provisional estimates from cited issue positions. The
+remaining 16 have no cited issue position and no individual overall number.
+The provisional estimates use sparse evidence (one to eight issue signals)
+and are labeled as such in the viewer. They have not passed an independent
+candidate-like validation check. Older exploratory ranges from
+`mart.us_candidate_v4_statement_bridge_preview` remain available as research
+context but do not replace a point estimate.
 
 For local review, install `requirements.txt`, set `DATABASE_URL` to a PostgreSQL URL or set
 `POLITICSAPP_ENV_FILE` to a local `.env` file containing it, then run
-`python server.py --port 8766` and open `http://127.0.0.1:8766/candidates/`.
+`python server.py --port 8767` and open `http://127.0.0.1:8767/candidates/`.
 Use a database account with SELECT-only privileges for a hosted deployment.
 On a hosted server, pass `--host 0.0.0.0` and put it behind HTTPS and a proxy
 for `/api/` and `/candidates/`.
@@ -75,33 +74,19 @@ the eventual production site.
 
 The landing-page Lawmakers and Candidates links appear automatically when
 `/api/health` responds successfully; a static-only deployment leaves them
-hidden. The local server was checked with 109 candidates, 553 lawmakers,
-69 scores on a lawmaker detail page, and zero overall-score differences
-across the 23 candidates linked to a lawmaker.
+hidden. On 19 October 2026 the live local API returned all 109 candidates,
+553 lawmakers (551 joint-fit members and two supplemental independents), and
+69 score scopes per lawmaker profile. All 23 linked-candidate overall points
+matched the corresponding lawmaker exactly. All 4,862 cited evidence IDs
+across candidate profiles resolved to a syntactically valid source URL; this
+does not establish that every external page remains live.
 
-On 13 October 2026 all 109 ballot-verified candidates had completed 20 issue
-cells in PostgreSQL. The scorecard classified 93 as scored and 16 as having
-insufficient evidence for a position. The local API returned all 109 profiles.
-
-Candidate issue scores are agentic evidence estimates. The overall position
-uses the national v4 site's −50 to +50 display scale. For linked lawmakers it
-is the site's published score; for Democratic and Republican candidates without
-a linked 119th-Congress lawmaker score it is a public-statement estimate
-calibrated on 23 overlapping lawmakers and labeled as such. The point
-estimate requires at least four qualifying rhetoric signals under the current
-calibration. Seventeen additional major-party candidates have broad exploratory
-ranges; remaining candidates have no comparable number until evidence and
-calibration anchors are available. The issue-level agentic scores have not
-been calibrated to v4's 14 policy domains.
-
-An audit on 15 October 2026 found 37 candidate point scores, 17 exploratory
-major-party ranges, and 55 profiles without a comparable number among the 109
-verified candidates. Fifty of those 55 are minor-party or independent; 37 of
-those 50 have at least one cited issue stance. Party-only context was checked
-with state-held-out lawmakers (7.10-point mean absolute error on the site's
-±50 scale), but that describes a party distribution rather than an individual
-candidate. The current shared-rubric bridge fails independent Senate transfer
-checks for Sanders and King, so minor-party candidate numbers remain hidden.
+The newest selected national fit includes the September 2026 tweet refresh,
+but its fit status is **diagnostic** because of sampler convergence warnings.
+Its current held-out vote prediction accuracy has not been remeasured, so the
+previous roughly 90% figure must not be reported as an accuracy result for
+this refreshed fit. The viewer exposes the fit status and source of each
+candidate score.
 
 ## Strict shared-rubric bridge check (15 October 2026)
 
@@ -119,9 +104,6 @@ showed no improvement, despite a small gain on the much larger lawmaker set.
 The diagnostic fit's preview produced 13 unlinked statement estimates, 23
 exact linked-lawmakers, and 73 records below the shared-rubric evidence gate.
 
-This does not justify publishing additional Ridge point scores. The tested fit
-is diagnostic and has a different hash from the site's saved fit-2 scale; it
-does not replace the current fit-2 calibration. Keep the current 37 points, 17
-broad exploratory ranges, and 55 profiles without a comparable overall number
-until a candidate-like holdout shows a real gain. All candidate profiles and
-cited issue evidence remain available independently of the overall-score gate.
+The Ridge bridge did not justify additional point scores on its own. The later
+issue-based estimates are a separate provisional method and should be read
+with their evidence counts and source labels.
